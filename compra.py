@@ -1,0 +1,137 @@
+from selenium import webdriver 
+from selenium.webdriver.common.by import By
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as ec 
+from selenium.common.exceptions import TimeoutException, NoSuchElementException, ElementClickInterceptedException, ElementNotInteractableException, WebDriverException
+import elementos_web as ew 
+
+tiempo_espera = 15
+
+def seleccion_producto(driver, modelo, pantalla, capacidad, color, operador):
+    
+    # Voy a la pagina del producto y selecciono 
+    driver.cambiar_url(f'{ew.url_producto}/{modelo}/{pantalla}-{capacidad}-{color}-{operador}')
+
+    if (operador == 'unlocked'):
+        # Elementos que interactua cuando modelo no es unlocked
+        trade = driver.esperar_elemento(tiempo_espera, ew.btn_trade)
+        trade.click()
+        pay_full = driver.esperar_elemento(tiempo_espera, ew.btn_full_price_unlocked)
+        pay_full.click()
+        if (driver.stock_disponible() == True):
+            add_bag = driver.esperar_elemento(tiempo_espera, ew.btn_continue_product)
+            add_bag.click()
+        else: 
+            print("No aparece que el producto este en stock por lo tanto se cerrara el programa")
+            exit(1)
+    
+    else: 
+        # Elementos que interactua cuando modelo es unlocked
+        trade = driver.esperar_elemento(tiempo_espera, ew.btn_trade)
+        trade.click()
+        pay_full = driver.esperar_elemento(tiempo_espera, ew.btn_full_price)
+        pay_full.click()
+        if (driver.stock_disponible() == True):
+            siguiente = driver.esperar_elemento(tiempo_espera, ew.btn_continue_product)
+            siguiente.click()
+        else: 
+            print("No aparece que el producto este en stock por lo tanto se cerrara el programa")
+            exit(1)
+
+
+def transpaso_operador(driver, nr_operador, cod_postal):
+    # Rellena Textos
+    operador = driver.esperar_elemento(tiempo_espera, ew.text_nr_operador)
+    operador.send_keys(nr_operador)
+    cod = driver.esperar_elemento(tiempo_espera, ew.text_cod_postal)
+    cod.send_keys(cod_postal)
+    # Clickea boton
+    siguiente = driver.esperar_elemento(tiempo_espera, ew.btn_siguiente)
+    siguiente.click()
+    # Pagina de aviso 
+    add_bag = driver.esperar_elemento(tiempo_espera, ew.btn_add_bag_2)
+    add_bag.click()
+    
+    
+def completar_compra(driver, info_domicilio, info_tarjeta):
+    
+    # Voy a la bolsa de apple para completar la compra
+    driver.cambiar_url(ew.url_bag)
+
+    # Botones
+    btn_checkout = driver.esperar_elemento(tiempo_espera, ew.btn_checkout)
+    btn_checkout.click()
+    guest = driver.esperar_elemento(tiempo_espera, ew.btn_continue_as_guest)
+    guest.click()
+    delivery = driver.esperar_elemento(tiempo_espera, ew.btn_delivery)
+    delivery.click()
+
+    # Texto ingreso el cod postal
+    cod_postal = driver.esperar_elemento(tiempo_espera, ew.text_zip_code)
+    cod_postal.send_keys(info_domicilio[4] + Keys.ENTER)
+    
+    shipping = driver.esperar_elemento(tiempo_espera, ew.btn_continue_shipping)
+    shipping.click()
+
+    # inicio los rellenos de formularios necesarios
+    try:
+        rellenar_informacion(driver, info_domicilio[0], info_domicilio[1], info_domicilio[2], info_domicilio[3],info_domicilio[4],info_domicilio[5],info_domicilio[6])
+        rellenar_datos_tarjeta(driver, info_tarjeta[0], info_tarjeta[1], info_tarjeta[2])
+    except:
+        print("Ha ocurrido un error, revise bien los archivos que utiliza, finalizando bot...")
+        exit(1)
+
+    # Concretar la compra
+    place_your_order = driver.esperar_elemento(tiempo_espera, ew.btn_place_your_order)
+    place_your_order.click()
+
+
+def rellenar_informacion(driver, nombre, apellido, direccion, edificio, cod_postal, email, telefono):
+    # Relleno los textbox
+    nom = driver.esperar_elemento(tiempo_espera, ew.text_name)
+    print(nom)
+    nom.send_keys(nombre)
+    ape = driver.esperar_elemento(tiempo_espera, ew.text_last_name)
+    ape.send_keys(apellido)
+    direc = driver.esperar_elemento(tiempo_espera, ew.text_street)
+    direc.send_keys(direccion)
+    edif = driver.esperar_elemento(tiempo_espera, ew.text_home)
+    edif.send_keys(edificio)
+    zip_code = driver.esperar_elemento(tiempo_espera, ew.text_zip_code_ship)
+    zip_code.send_keys(cod_postal)
+    mail = driver.esperar_elemento(tiempo_espera, ew.text_email)
+    mail.send_keys(email)
+    tel = driver.esperar_elemento(tiempo_espera, ew.text_phone_number)
+    tel.send_keys(telefono)
+
+    continue_pay = driver.esperar_elemento(tiempo_espera, ew.btn_continue_payment)
+    continue_pay.click()
+
+    
+def rellenar_datos_tarjeta(driver, nr_tarjeta, fec_exp, cvv):
+    credit_card = driver.esperar_elemento(tiempo_espera, ew.btn_credit_card)
+    credit_card.click()
+
+    # Datos tarjeta
+    card = driver.esperar_elemento(tiempo_espera, ew.text_card)
+    card.send_keys(nr_tarjeta)
+    exp = driver.esperar_elemento(tiempo_espera, ew.text_expired)
+    exp.send_keys(fec_exp)
+    codigo = driver.esperar_elemento(tiempo_espera, ew.text_cvv)
+    codigo.send_keys(cvv)
+
+    continue_review = driver.esperar_elemento(tiempo_espera, ew.btn_continue_to_review)
+    continue_review.click()
+
+
+
+    
+
+
+
+
+    
+        
+
+
