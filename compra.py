@@ -1,3 +1,4 @@
+from time import sleep
 from selenium import webdriver 
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
@@ -11,30 +12,41 @@ tiempo_espera = 15
 def seleccion_producto(driver, modelo, pantalla, capacidad, color, operador):
     
     # Voy a la pagina del producto y selecciono 
-    driver.cambiar_url(f'{ew.url_producto}/{modelo}/{pantalla}-{capacidad}-{color}-{operador}')
+    url_producto_especifico = f'{ew.url_producto}/{modelo}/{pantalla}-{capacidad}-{color}-{operador}'
+    driver.cambiar_url(url_producto_especifico)
 
     if (operador == 'unlocked'):
-        # Elementos que interactua cuando modelo no es unlocked
+        # Elementos que interactua cuando modelo es unlocked
         trade = driver.esperar_elemento(tiempo_espera, ew.btn_trade)
         trade.click()
         pay_full = driver.esperar_elemento(tiempo_espera, ew.btn_full_price_unlocked)
         pay_full.click()
+
+        sleep(5)
+
         if (driver.stock_disponible() == True):
             add_bag = driver.esperar_elemento(tiempo_espera, ew.btn_continue_product)
             add_bag.click()
+
         else: 
             print("No aparece que el producto este en stock por lo tanto se cerrara el programa")
             exit(1)
     
     else: 
-        # Elementos que interactua cuando modelo es unlocked
+        # Elementos que interactua cuando modelo no es unlocked
         trade = driver.esperar_elemento(tiempo_espera, ew.btn_trade)
         trade.click()
         pay_full = driver.esperar_elemento(tiempo_espera, ew.btn_full_price)
         pay_full.click()
-        if (driver.stock_disponible() == True):
+        
+        sleep(5)
+
+        if (driver.stock_disponible(tiempo_espera, ew.text_stock) == True):
             siguiente = driver.esperar_elemento(tiempo_espera, ew.btn_continue_product)
             siguiente.click()
+            if (modelo != 'iphone-12'):
+                activacion_now = driver.esperar_elemento(tiempo_espera, ew.btn_activation_carrier_now)
+                activacion_now.click()
         else: 
             print("No aparece que el producto este en stock por lo tanto se cerrara el programa")
             exit(1)
@@ -99,7 +111,7 @@ def rellenar_informacion(driver, nombre, apellido, direccion, edificio, cod_post
     edif = driver.esperar_elemento(tiempo_espera, ew.text_home)
     edif.send_keys(edificio)
     zip_code = driver.esperar_elemento(tiempo_espera, ew.text_zip_code_ship)
-    zip_code.send_keys(cod_postal)
+    zip_code.send_keys(cod_postal + Keys.ENTER)
     mail = driver.esperar_elemento(tiempo_espera, ew.text_email)
     mail.send_keys(email)
     tel = driver.esperar_elemento(tiempo_espera, ew.text_phone_number)

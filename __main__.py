@@ -22,15 +22,15 @@ def main():
     datos_tarjeta = verificacion_datos(bot.leer_texto('datos_tarjeta'))
     datos_iphone = verificacion_datos(bot.leer_texto('iphone'))
     operador = datos_iphone[4]
-    print(operador)
+    nro_operador = '7868639220'
 
     # Usa diferentes botones la pagina si el celular es desbloqueado  
-    try:
+    try: 
         if operador == 'unlocked':
             seleccion_producto(bot, datos_iphone[0], datos_iphone[1], datos_iphone[2], datos_iphone[3], datos_iphone[4])
         else:
             seleccion_producto(bot, datos_iphone[0], datos_iphone[1], datos_iphone[2], datos_iphone[3], datos_iphone[4])
-            transpaso_operador(bot, 7868639220, datos_domicilio[4])
+            transpaso_operador(bot, nro_operador, datos_domicilio[4])
     except:
         print('Se ha ingresado mal los datos del telefono a comprar')
         exit(1)

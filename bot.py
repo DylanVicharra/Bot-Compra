@@ -24,6 +24,9 @@ class Bot:
     def cambiar_url(self,nueva_url):
         self.driver.get(nueva_url)
 
+    def url_actual(self):
+        return self.driver.current_url
+
     def esperar_elemento(self, tiempo_espera, elemento):
         espera_seleccion = False 
         while not espera_seleccion:
@@ -35,7 +38,17 @@ class Bot:
                 wait.until(ec.visibility_of_element_located((By.XPATH, elemento)))
             except (TimeoutException):
                 print("Posiblemente el elemento no se encuentra en la pagina")
-                self.driver.quit()
+                exit(1)
+
+    def encontrar_elemento(self, tiempo_espera, elemento):
+        espera_seleccion = False 
+        while not espera_seleccion:
+            try: 
+                elemento_cargado = self.driver.find_element_by_xpath(elemento)
+                return elemento_cargado
+            except (ElementNotInteractableException, NoSuchElementException):
+                wait = WebDriverWait(self.driver,tiempo_espera)
+                wait.until(ec.visibility_of_element_located((By.XPATH, elemento)))
     
     def leer_texto(self, archivo):
         lista_datos = []
@@ -49,9 +62,9 @@ class Bot:
             print(f'El archivo {archivo}.text no admitido, renombrelo y vuelva intentar')
             return lista_datos
 
-    def stock_disponible(self):
+    def stock_disponible(self, tiempo_espera, elemento):
         # Reviso en el recuadro de informacion si hay stock
-        stock = self.driver.find_element_by_xpath('//*[@id="primary"]/summary-builder/div[2]/div[1]/materializer/div[1]/div/div/ul/li[1]/span')
+        stock = self.encontrar_elemento(tiempo_espera, elemento)
         if (str(stock.text) == 'In Stock'):
             return True
         else: 
