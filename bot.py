@@ -71,6 +71,6 @@ class Bot:
         else: 
             return False 
 
-
-
+    def finalizar(self):
+        self.driver.quit()
 

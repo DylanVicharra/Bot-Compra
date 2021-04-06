@@ -100,18 +100,9 @@ def completar_compra(driver, info_domicilio, info_tarjeta):
         # inicio los rellenos de formularios necesarios
         rellenar_informacion(driver, info_domicilio[0], info_domicilio[1], info_domicilio[2], info_domicilio[3],info_domicilio[4],info_domicilio[5],info_domicilio[6])
         rellenar_datos_tarjeta(driver, info_tarjeta[0], info_tarjeta[1], info_tarjeta[2])
-
-        # Concretar la compra
-        #place_your_order = driver.esperar_elemento(tiempo_espera, ew.btn_place_your_order)
-        #place_your_order.click()
         
         sleep(5)
     
-        if (driver.url_actual() == ew.url_billing):
-            print('HA OCURRIDO UN ERROR CON LA TARJETA, INTENTE CON OTRA')
-            exit(1)
-        else:
-            print('SE CONCRETO LA COMPRA SATISFACTORIAMENTE')
     except:
         print('HUBO UN ERROR EN MEDIO DE LA COMPRA\n FINALIZANDO BOT...')
         exit(1)
