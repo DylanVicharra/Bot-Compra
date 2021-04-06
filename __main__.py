@@ -1,5 +1,5 @@
 from bot import Bot
-from pynput import keyboard as kb
+#from pynput import keyboard as kb
 from time import sleep
 import elementos_web as ew
 from compra import seleccion_producto, transpaso_operador, completar_compra
@@ -40,7 +40,9 @@ def main():
     completar_compra(bot, datos_domicilio, datos_tarjeta)
     
     # Deja un pequeño loop hasta que se toque un tecla especifica
-    kb.Listener(pulsa_boton).run()
+    #kb.Listener(pulsa_boton).run()
+    
+    sleep(60)
     
     bot.finalizar()
 
