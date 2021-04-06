@@ -25,7 +25,8 @@ class Bot:
         self.driver.get(nueva_url)
 
     def url_actual(self):
-        return self.driver.current_url
+        url_actual = str(self.driver.current_url)
+        return url_actual
 
     def esperar_elemento(self, tiempo_espera, elemento):
         espera_seleccion = False 

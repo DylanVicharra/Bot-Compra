@@ -25,16 +25,13 @@ def main():
     nro_operador = '7868639220'
 
     # Usa diferentes botones la pagina si el celular es desbloqueado  
-    try: 
-        if operador == 'unlocked':
-            seleccion_producto(bot, datos_iphone[0], datos_iphone[1], datos_iphone[2], datos_iphone[3], datos_iphone[4])
-        else:
-            seleccion_producto(bot, datos_iphone[0], datos_iphone[1], datos_iphone[2], datos_iphone[3], datos_iphone[4])
-            transpaso_operador(bot, nro_operador, datos_domicilio[4])
-    except:
-        print('Se ha ingresado mal los datos del telefono a comprar')
-        exit(1)
-
+     
+    if operador == 'unlocked':
+        seleccion_producto(bot, datos_iphone[0], datos_iphone[1], datos_iphone[2], datos_iphone[3], datos_iphone[4])
+    else:
+        seleccion_producto(bot, datos_iphone[0], datos_iphone[1], datos_iphone[2], datos_iphone[3], datos_iphone[4])
+        transpaso_operador(bot, nro_operador, datos_domicilio[4])
+    
     completar_compra(bot, datos_domicilio, datos_tarjeta)
 
     sleep(10)
