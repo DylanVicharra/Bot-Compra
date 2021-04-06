@@ -25,8 +25,8 @@ def seleccion_producto(driver, modelo, pantalla, capacidad, color, operador):
 
             sleep(5)
 
-            if (driver.stock_disponible() == True):
-                add_bag = driver.esperar_elemento(tiempo_espera, ew.btn_continue_product)
+            if (driver.stock_disponible(tiempo_espera, ew.text_stock) == True):             
+                add_bag = driver.esperar_elemento(tiempo_espera, ew.btn_add_bag)
                 add_bag.click()
                 print("SE ELEGIO SATISFACTORIAMENTE EL PRODUCTO")
             else: 
