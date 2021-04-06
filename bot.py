@@ -4,7 +4,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec 
-from selenium.common.exceptions import TimeoutException, NoSuchElementException, ElementClickInterceptedException, ElementNotInteractableException, WebDriverException
+from selenium.common.exceptions import TimeoutException, NoSuchElementException, ElementNotInteractableException
 
 
 class Bot: 
@@ -12,6 +12,7 @@ class Bot:
         os_confirm = self.ver_os()
         self.driver = webdriver.Chrome(executable_path=f"{os_confirm}")
         self.driver.get(url)
+        self.url_fallo = ''
 
     def ver_os(self):
         if platform == 'win32':
@@ -27,7 +28,18 @@ class Bot:
     def url_actual(self):
         url_actual = str(self.driver.current_url)
         return url_actual
+    
+    # Solo espera que el elemento este cargado en DOM
+    def elemento_cargado(self, tiempo_espera, elemento):
+        # Esperar que cargue un pagina y contenedores
+        try: 
+            elemento = ec.presence_of_element_located((By.XPATH,elemento))
+            WebDriverWait(self.driver,tiempo_espera).until(elemento)      
+        except (TimeoutException):
+            print("TARDA EN CARGAR LA PAGINA")
+            exit(1)
 
+    # Selecciona al elemento que este cargado y visible 
     def esperar_elemento(self, tiempo_espera, elemento):
         espera_seleccion = False 
         while not espera_seleccion:
@@ -41,15 +53,16 @@ class Bot:
                 print("Posiblemente el elemento no se encuentra en la pagina")
                 exit(1)
 
+    # Selecciona al elemento que solo este presente en el DOM 
     def encontrar_elemento(self, tiempo_espera, elemento):
         espera_seleccion = False 
         while not espera_seleccion:
             try: 
-                elemento_cargado = self.driver.find_element_by_xpath(elemento)
-                return elemento_cargado
+                elemento_encontrado = self.driver.find_element_by_xpath(elemento)
+                return elemento_encontrado
             except (ElementNotInteractableException, NoSuchElementException):
                 wait = WebDriverWait(self.driver,tiempo_espera)
-                wait.until(ec.visibility_of_element_located((By.XPATH, elemento)))
+                wait.until(ec.presence_of_element_located((By.XPATH, elemento)))
     
     def leer_texto(self, archivo):
         lista_datos = []
@@ -73,4 +86,5 @@ class Bot:
 
     def finalizar(self):
         self.driver.quit()
+
 

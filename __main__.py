@@ -1,8 +1,7 @@
-import msvcrt
 from bot import Bot
+from pynput import keyboard as kb
 from time import sleep
 import elementos_web as ew
-from pynput import keyboard as kb
 from compra import seleccion_producto, transpaso_operador, completar_compra
 
 
@@ -13,7 +12,7 @@ def verificacion_datos(lista_datos):
     else: 
         return lista_datos
 
-def pulsa_tecla(tecla):
+def pulsa_boton(tecla):
     if tecla == kb.KeyCode.from_char('x'):
         print('FINALIZANDO...')
         return False
@@ -40,9 +39,8 @@ def main():
     
     completar_compra(bot, datos_domicilio, datos_tarjeta)
     
-    kb.Listener(pulsa_tecla).run()
-
-    sleep(5)
+    # Deja un pequeño loop hasta que se toque un tecla especifica
+    kb.Listener(pulsa_boton).run()
     
     bot.finalizar()
 
