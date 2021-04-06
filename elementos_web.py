@@ -14,7 +14,7 @@ btn_continue_product = '/html/body/div[2]/div[7]/div[2]/div/store-provider/step1
 
 # botones y textos para seleccion producto sin operador  
 btn_full_price_unlocked = '//*[@id="primary"]/materializer[2]/purchase-options/fieldset/materializer[2]/div/div[2]'
-btn_add_bag = '//*[@id="primary"]/summary-builder/div[2]/div[1]/div/div[1]/div[2]/div/div/form/div/span/button'
+btn_add_bag = '/html/body/div[2]/div[7]/div[2]/div/store-provider/step1-flagship/div/div[3]/summary-builder/div[2]/div[1]/div/div[1]/div[2]/div/div/form/div/span/button'
 
 # aparece cuando no es un iphone 12, ventana que activacion
 btn_activation_carrier_now = '/html/body/div[2]/div[7]/div/div/div[2]/div[1]/form/div[1]/span/button'
@@ -57,7 +57,7 @@ text_expired = '/html/body/div[2]/div[4]/div/div[7]/div[1]/div[2]/div/div/div[1]
 text_cvv = '/html/body/div[2]/div[4]/div/div[7]/div[1]/div[2]/div/div/div[1]/div[1]/div[2]/fieldset/div/div/div[1]/div[1]/div[2]/div/div/div[2]/div/div[1]/div/div[2]/div[2]/div/div[1]/input'
 btn_continue_to_review = '/html/body/div[2]/div[4]/div/div[7]/div[1]/div[2]/div/div/div[1]/div[2]/div/div/div/div/button'
 
-# boton para contratar la compra
+# boton para concretar la compra
 
 btn_place_your_order = '/html/body/div[2]/div[4]/div/div[5]/div[1]/div[1]/div/div/div[2]/div[5]/div/div/div/div[1]/button'
 

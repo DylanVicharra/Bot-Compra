@@ -71,8 +71,9 @@ def transpaso_operador(driver, nr_operador, cod_postal):
         sleep(5)
         add_bag = driver.esperar_elemento(tiempo_espera, ew.btn_add_bag_2)
         add_bag.click()
-    except:
         print('SE HIZO LA VERIFICACION DEL OPERADOR SATISFACTORIAMENTE')
+    except:
+        print('HUBO UN ERROR EN LA VERIFICACION DEL OPERADOR')
         exit(1)
     
     
@@ -101,13 +102,13 @@ def completar_compra(driver, info_domicilio, info_tarjeta):
         rellenar_datos_tarjeta(driver, info_tarjeta[0], info_tarjeta[1], info_tarjeta[2])
 
         # Concretar la compra
-        place_your_order = driver.esperar_elemento(tiempo_espera, ew.btn_place_your_order)
-        place_your_order.click()
+        #place_your_order = driver.esperar_elemento(tiempo_espera, ew.btn_place_your_order)
+        #place_your_order.click()
         
         sleep(5)
     
         if (driver.url_actual() == ew.url_billing):
-            print('HA OCURRIDO UN ERROR CON LA TARJETA, INTENTE CON OTRA\n FINALIZANDO BOT...')
+            print('HA OCURRIDO UN ERROR CON LA TARJETA, INTENTE CON OTRA')
             exit(1)
         else:
             print('SE CONCRETO LA COMPRA SATISFACTORIAMENTE')
@@ -119,7 +120,6 @@ def rellenar_informacion(driver, nombre, apellido, direccion, edificio, cod_post
     try:
         # Relleno los textbox
         nom = driver.esperar_elemento(tiempo_espera, ew.text_name)
-        print(nom)
         nom.send_keys(nombre)
         ape = driver.esperar_elemento(tiempo_espera, ew.text_last_name)
         ape.send_keys(apellido)

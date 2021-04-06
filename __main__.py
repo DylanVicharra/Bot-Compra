@@ -1,3 +1,4 @@
+import msvcrt
 from bot import Bot
 from time import sleep
 import elementos_web as ew
@@ -10,6 +11,14 @@ def verificacion_datos(lista_datos):
         exit(1)
     else: 
         return lista_datos
+
+def paso_de_espera():
+    presionar = 0
+    while presionar <= 2:
+        tecla=msvcrt.getwch()
+        if tecla == 'r':
+            presionar = presionar + 1
+
 
 
 def main():      
@@ -34,6 +43,8 @@ def main():
     
     completar_compra(bot, datos_domicilio, datos_tarjeta)
 
+    paso_de_espera()
+    
     sleep(10)
 
     del bot
