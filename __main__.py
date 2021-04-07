@@ -1,5 +1,5 @@
 from bot import Bot
-from pynput import keyboard as kb
+# from pynput import keyboard as kb
 from time import sleep
 import elementos_web as ew
 from compra import seleccion_producto, transpaso_operador, completar_compra, completar_compra_appleid
