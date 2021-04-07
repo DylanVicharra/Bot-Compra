@@ -1,5 +1,4 @@
 from time import sleep
-
 from selenium import webdriver 
 from selenium.webdriver import ActionChains
 from selenium.webdriver.common.by import By
@@ -19,31 +18,30 @@ def seleccion_producto(driver, modelo, pantalla, capacidad, color, operador):
     # Veo si cargo la pagina y contenedor:
     driver.elemento_cargado(tiempo_espera, ew.web_apple_producto)
     driver.elemento_cargado(tiempo_espera, ew.contenedor_botones_producto)
-
-    # Inicio una cadena de accciones
-    accion = ActionChains(driver.driver)
     
     # Cargo elementos a utilizar:
     trade = driver.encontrar_elemento(tiempo_espera, ew.btn_trade)
 
     try:
         if operador != 'unlocked':
-            # Acciones 
+            # Acciones
+            accion = ActionChains(driver.driver)
             accion.move_to_element(trade)
             accion.click(trade)
             accion.pause(5)
             accion.perform()
-
+            
             # Elemento con operador
+            accion = ActionChains(driver.driver)
             pay_full_operador = driver.encontrar_elemento(tiempo_espera, ew.btn_full_price)
-
             accion.move_to_element(pay_full_operador)
             accion.click(pay_full_operador)
             accion.pause(5)
             accion.perform()
+
             if (driver.stock_disponible(tiempo_espera, ew.text_stock)==True):
+                accion = ActionChains(driver.driver)
                 btn_siguiente = driver.encontrar_elemento(tiempo_espera, ew.btn_continue_product)
-                accion.move_to_element(btn_siguiente)
                 accion.click(btn_siguiente)
                 accion.pause(5)
                 accion.perform()
@@ -51,25 +49,27 @@ def seleccion_producto(driver, modelo, pantalla, capacidad, color, operador):
                 if (modelo != 'iphone-12'):
                     btn_carrier = driver.esperar_elemento(tiempo_espera, ew.btn_activation_carrier_now)
                     btn_carrier.click()
-
             else: 
                 print('NO HAY STOCK DISPONIBLE DEL PRODUCTO')
                 exit(1)
         else: 
             # Acciones
+            accion = ActionChains(driver.driver)
             accion.move_to_element(trade)
             accion.click(trade)
             accion.pause(5)
             accion.perform()
 
             # Elementos sin operador
+            accion = ActionChains(driver.driver)
             pay_full_unlocked = driver.encontrar_elemento(tiempo_espera, ew.btn_full_price_unlocked)
-
             accion.move_to_element(pay_full_unlocked)
             accion.click(pay_full_unlocked)
             accion.pause(5)
             accion.perform() 
+
             if (driver.stock_disponible(tiempo_espera, ew.text_stock)==True):
+                accion = ActionChains(driver.driver)
                 btn_siguiente = driver.encontrar_elemento(tiempo_espera, ew.btn_continue_product)
                 accion.move_to_element(btn_siguiente)
                 accion.click(btn_siguiente)
@@ -79,7 +79,6 @@ def seleccion_producto(driver, modelo, pantalla, capacidad, color, operador):
                 if (modelo != 'iphone-12'):
                     btn_carrier = driver.esperar_elemento(tiempo_espera, ew.btn_activation_carrier_now)
                     btn_carrier.click()
-
             else: 
                 print('NO HAY STOCK DISPONIBLE DEL PRODUCTO')
                 exit(1)
@@ -116,7 +115,37 @@ def transpaso_operador(driver, nr_operador, cod_postal):
         print('HUBO UN ERROR EN LA VERIFICACION DEL OPERADOR')
         exit(1)
     
-    
+def completar_compra_appleid(driver, usuario, password):
+    try:
+        # Voy a la bolsa de apple para completar la compra
+        driver.cambiar_url(ew.url_bag)
+
+        btn_checkout = driver.esperar_elemento(tiempo_espera, ew.btn_checkout)
+        btn_checkout.click()
+
+        # Ve si cargo el contenedor
+        driver.elemento_cargado(tiempo_espera, ew.contenedor_apple_id)
+
+        driver.driver.switch_to_frame("aid-auth-widget")
+
+        # Inicio una cadena de acciones
+        accion = ActionChains(driver.driver)
+
+        # Elemento a usar
+        username = driver.encontrar_elemento(tiempo_espera, ew.text_username)
+        accion.send_keys_to_element(username, usuario + Keys.ENTER)
+        accion.pause(10)
+
+        # Elemento a usar
+        password_id = driver.encontrar_elemento(tiempo_espera, ew.text_password)
+        accion.send_keys_to_element(password_id, password + Keys.ENTER)
+        accion.pause(3)
+        accion.perform()
+        
+    except:
+        print('HUBO UN ERROR EN MEDIO DE LA COMPRA\n FINALIZANDO BOT...')
+        exit(1)
+
 def completar_compra(driver, info_domicilio, info_tarjeta):
     try:
         # Voy a la bolsa de apple para completar la compra
@@ -140,10 +169,6 @@ def completar_compra(driver, info_domicilio, info_tarjeta):
         # inicio los rellenos de formularios necesarios
         rellenar_informacion(driver, info_domicilio[0], info_domicilio[1], info_domicilio[2], info_domicilio[3],info_domicilio[4],info_domicilio[5],info_domicilio[6])
         rellenar_datos_tarjeta(driver, info_tarjeta[0], info_tarjeta[1], info_tarjeta[2])
-
-        # Concretar la compra
-        #place_your_order = driver.esperar_elemento(tiempo_espera, ew.btn_place_your_order)
-        #place_your_order.click()
 
     except:
         print('HUBO UN ERROR EN MEDIO DE LA COMPRA\n FINALIZANDO BOT...')
@@ -186,8 +211,7 @@ def rellenar_informacion(driver, nombre, apellido, direccion, edificio, cod_post
     except:
         print('HA OCURRIDO UN ERROR CON LOS DATOS DE DOMICILIO\n FINALIZANDO BOT...')
         exit(1)
-
-    
+   
 def rellenar_datos_tarjeta(driver, nr_tarjeta, fec_exp, cvv):
     # Inicio una cadena de accciones
     accion = ActionChains(driver.driver)

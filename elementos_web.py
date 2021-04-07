@@ -3,7 +3,7 @@
 url_apple = 'https://www.apple.com'
 url_producto = f'{url_apple}/shop/buy-iphone'
 url_bag = f'{url_apple}/shop/bag'
-url_billing = str('https://secure4.store.apple.com/shop/checkout?_s=Billing')
+#url_billing = str('https://secure4.store.apple.com/shop/checkout?_s=Billing')
 #url_review_producto = str('https://secure4.store.apple.com/shop/checkout?_s=Review')
 
 # pagina web
@@ -36,6 +36,11 @@ btn_add_bag_2 = '/html/body/div[1]/div[6]/div/div[2]/a'
 
 # botones en pagina bag
 btn_checkout = '//*[@id="shoppingCart.actions.navCheckout"]'
+
+# textos de inicio sesion:
+contenedor_apple_id = '/html/body/div[2]/div[4]/div[2]/div/div[1]/div/iframe'
+text_username = '/html/body/div[3]/apple-auth/div/div[1]/div/sign-in/div/div[1]/div[1]/div/div/div[1]/div/div/input'
+text_password = '/html/body/div[3]/apple-auth/div/div[1]/div/sign-in/div/div[1]/div[1]/div/div/div[2]/div/div/input'
 
 # botones en ventana sign-in faster 
 btn_continue_as_guest = '//*[@id="signIn.guestLogin.guestLogin"]'

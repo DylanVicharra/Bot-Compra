@@ -66,7 +66,7 @@ class Bot:
     
     def leer_texto(self, archivo):
         lista_datos = []
-        if archivo == 'datos_domicilio' or archivo == 'datos_tarjeta' or archivo == 'iphone':
+        if archivo == 'datos_domicilio' or archivo == 'datos_tarjeta' or archivo == 'iphone' or archivo == 'apple_id':
             lectura = open(f'{archivo}.txt','r')
             for linea in lectura:
                 lista_datos.append(linea.strip('\n'))
