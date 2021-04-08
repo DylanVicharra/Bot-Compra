@@ -6,7 +6,7 @@ from compra import seleccion_producto, transpaso_operador, completar_compra_appl
 
 def verificacion_datos(lista_datos):
     if lista_datos == []:
-        print('El archivo no contiene datos')
+        print('UNO DE LOS ARCHIVOS NO CONTIENE DATOS')
         exit(1)
     else: 
         return lista_datos
@@ -34,6 +34,8 @@ def main():
     sleep(5)
 
     bot.finalizar()
+    
+    print('BOT FINALIZADO')
 
     del bot
         
