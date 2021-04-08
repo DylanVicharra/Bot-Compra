@@ -1,4 +1,6 @@
+import os.path as path
 from sys import platform
+from datetime import datetime
 from selenium import webdriver 
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
@@ -13,6 +15,10 @@ class Bot:
         self.driver = webdriver.Chrome(executable_path=f"{os_confirm}")
         self.driver.get(url)
         self.url_fallo = ''
+
+    def get_driver(self):
+        driver = self.driver
+        return driver
 
     def ver_os(self):
         if platform == 'win32':
@@ -31,7 +37,7 @@ class Bot:
     
     # Solo espera que el elemento este cargado en DOM
     def elemento_cargado(self, tiempo_espera, elemento):
-        # Esperar que cargue un pagina y contenedores
+        # Espera que cargue un pagina y contenedores
         try: 
             elemento = ec.presence_of_element_located((By.XPATH,elemento))
             WebDriverWait(self.driver,tiempo_espera).until(elemento)      
@@ -75,6 +81,14 @@ class Bot:
         else: 
             print(f'El archivo {archivo}.text no admitido, renombrelo y vuelva intentar')
             return lista_datos
+
+    def escribir_texto(self, dato):
+        if path.exists('numero_orden.txt') == False:
+            with open('numero_orden.txt', 'w') as orden:
+                orden.write(f'Fecha:{datetime.now()} ---- {dato}' + "\n")
+        else: 
+            with open('nuevo_archivo.txt', 'a') as orden:
+                orden.write(f'Fecha:{datetime.now()} ---- {dato}' + "\n")
 
     def stock_disponible(self, tiempo_espera, elemento):
         # Reviso en el recuadro de informacion si hay stock

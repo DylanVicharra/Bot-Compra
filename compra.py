@@ -15,7 +15,7 @@ def seleccion_producto(driver, modelo, pantalla, capacidad, color, operador):
     url_producto_especifico = f'{ew.url_producto}/{modelo}/{pantalla}-{capacidad}-{color}-{operador}'
     driver.cambiar_url(url_producto_especifico)
 
-    # Veo si cargo la pagina y contenedor:
+    # Veo si cargo la pagina y contenedor de los botones:
     driver.elemento_cargado(tiempo_espera, ew.web_apple_producto)
     driver.elemento_cargado(tiempo_espera, ew.contenedor_botones_producto)
     
@@ -25,27 +25,28 @@ def seleccion_producto(driver, modelo, pantalla, capacidad, color, operador):
     try:
         if operador != 'unlocked':
             # Acciones
-            accion = ActionChains(driver.driver)
+            accion = ActionChains(driver.get_driver())
             accion.move_to_element(trade)
             accion.click(trade)
-            accion.pause(5)
+            accion.pause(4)
             accion.perform()
             
             # Elemento con operador
-            accion = ActionChains(driver.driver)
+            accion = ActionChains(driver.get_driver())
             pay_full_operador = driver.encontrar_elemento(tiempo_espera, ew.btn_full_price)
             accion.move_to_element(pay_full_operador)
             accion.click(pay_full_operador)
-            accion.pause(5)
+            accion.pause(4)
             accion.perform()
 
             if (driver.stock_disponible(tiempo_espera, ew.text_stock)==True):
-                accion = ActionChains(driver.driver)
+                accion = ActionChains(driver.get_driver())
                 btn_siguiente = driver.encontrar_elemento(tiempo_espera, ew.btn_continue_product)
                 accion.click(btn_siguiente)
-                accion.pause(5)
+                accion.pause(4)
                 accion.perform()
 
+                print('SE SELECCIONO EL PRODUCTO SATISFACTORIAMENTE')
                 if (modelo != 'iphone-12'):
                     btn_carrier = driver.esperar_elemento(tiempo_espera, ew.btn_activation_carrier_now)
                     btn_carrier.click()
@@ -54,28 +55,29 @@ def seleccion_producto(driver, modelo, pantalla, capacidad, color, operador):
                 exit(1)
         else: 
             # Acciones
-            accion = ActionChains(driver.driver)
+            accion = ActionChains(driver.get_driver())
             accion.move_to_element(trade)
             accion.click(trade)
-            accion.pause(5)
+            accion.pause(4)
             accion.perform()
 
             # Elementos sin operador
-            accion = ActionChains(driver.driver)
+            accion = ActionChains(driver.get_driver())
             pay_full_unlocked = driver.encontrar_elemento(tiempo_espera, ew.btn_full_price_unlocked)
             accion.move_to_element(pay_full_unlocked)
             accion.click(pay_full_unlocked)
-            accion.pause(5)
+            accion.pause(4)
             accion.perform() 
 
             if (driver.stock_disponible(tiempo_espera, ew.text_stock)==True):
-                accion = ActionChains(driver.driver)
+                accion = ActionChains(driver.get_driver())
                 btn_siguiente = driver.encontrar_elemento(tiempo_espera, ew.btn_continue_product)
                 accion.move_to_element(btn_siguiente)
                 accion.click(btn_siguiente)
-                accion.pause(5)
+                accion.pause(4)
                 accion.perform()
-
+                
+                print('SE SELECCIONO EL PRODUCTO SATISFACTORIAMENTE')
                 if (modelo != 'iphone-12'):
                     btn_carrier = driver.esperar_elemento(tiempo_espera, ew.btn_activation_carrier_now)
                     btn_carrier.click()
@@ -85,7 +87,6 @@ def seleccion_producto(driver, modelo, pantalla, capacidad, color, operador):
     except:
         print("HA OCURRIDO UN ERROR EN LA SELECCION DEL PRODUCTO\n FINALIZANDO BOT...")
         exit(1)
-
 
 def transpaso_operador(driver, nr_operador, cod_postal):
     # Veo si cargo el contenedor
@@ -123,128 +124,65 @@ def completar_compra_appleid(driver, usuario, password):
         btn_checkout = driver.esperar_elemento(tiempo_espera, ew.btn_checkout)
         btn_checkout.click()
 
-        # Ve si cargo el contenedor
+        # Veo si cargo el contenedor
         driver.elemento_cargado(tiempo_espera, ew.contenedor_apple_id)
 
         driver.driver.switch_to_frame("aid-auth-widget")
 
+        # Logue en AppleID
         # Inicio una cadena de acciones
-        accion = ActionChains(driver.driver)
+        accion = ActionChains(driver.get_driver())
 
         # Elemento a usar
         username = driver.encontrar_elemento(tiempo_espera, ew.text_username)
         accion.send_keys_to_element(username, usuario + Keys.ENTER)
-        accion.pause(10)
+        accion.pause(3)
 
         # Elemento a usar
         password_id = driver.encontrar_elemento(tiempo_espera, ew.text_password)
         accion.send_keys_to_element(password_id, password + Keys.ENTER)
-        accion.pause(3)
+        accion.pause(5)
         accion.perform()
         
-    except:
-        print('HUBO UN ERROR EN MEDIO DE LA COMPRA\n FINALIZANDO BOT...')
-        exit(1)
-
-def completar_compra(driver, info_domicilio, info_tarjeta):
-    try:
-        # Voy a la bolsa de apple para completar la compra
-        driver.cambiar_url(ew.url_bag)
-
-        # Botones
-        btn_checkout = driver.esperar_elemento(tiempo_espera, ew.btn_checkout)
-        btn_checkout.click()
-        guest = driver.esperar_elemento(tiempo_espera, ew.btn_continue_as_guest)
-        guest.click()
-        delivery = driver.esperar_elemento(tiempo_espera, ew.btn_delivery)
-        delivery.click()
-
-        # Texto ingreso el cod postal
-        cod_postal = driver.esperar_elemento(tiempo_espera, ew.text_zip_code)
-        cod_postal.send_keys(info_domicilio[4] + Keys.ENTER)
+        terminar_compra(driver)
         
-        shipping = driver.esperar_elemento(tiempo_espera, ew.btn_continue_shipping)
-        shipping.click()
-
-        # inicio los rellenos de formularios necesarios
-        rellenar_informacion(driver, info_domicilio[0], info_domicilio[1], info_domicilio[2], info_domicilio[3],info_domicilio[4],info_domicilio[5],info_domicilio[6])
-        rellenar_datos_tarjeta(driver, info_tarjeta[0], info_tarjeta[1], info_tarjeta[2])
-
     except:
         print('HUBO UN ERROR EN MEDIO DE LA COMPRA\n FINALIZANDO BOT...')
         exit(1)
 
-def rellenar_informacion(driver, nombre, apellido, direccion, edificio, cod_postal, email, telefono):
+def terminar_compra(driver):
+    #  Pagina Fulfillment
+    btn_continue_shipping = driver.esperar_elemento(tiempo_espera, ew.btn_continue_shipping)
+    btn_continue_shipping.click()
+
+    #  Pagina Shipping
+    btn_continue_payment = driver.esperar_elemento(tiempo_espera, ew.btn_continue_payment)
+    btn_continue_payment.click()
+
+    # Pagina Billing 
     # Veo si cargo el contenedor
-    driver.elemento_cargado(tiempo_espera, ew.contenedor_shipping)
-    driver.elemento_cargado(tiempo_espera, ew.contenedor_shipping_adresscontact)
+    driver.elemento_cargado(tiempo_espera, ew.contenedor_billling)
 
-    # Inicio una cadena de accciones
-    accion = ActionChains(driver.driver)
+    # Elementos a usar 
+    btn_card = driver.esperar_elemento(tiempo_espera, ew.btn_credit_card)
+    btn_card.click()
+    btn_continue_review = driver.esperar_elemento(tiempo_espera, ew.btn_continue_to_review)
+    btn_continue_review.click()
 
-    # Elemento a usar
-    nom = driver.encontrar_elemento(tiempo_espera, ew.text_name)
-    ape = driver.encontrar_elemento(tiempo_espera, ew.text_last_name)
-    direc = driver.encontrar_elemento(tiempo_espera, ew.text_street)
-    edif = driver.encontrar_elemento(tiempo_espera, ew.text_home)
-    zip_code = driver.encontrar_elemento(tiempo_espera, ew.text_zip_code_ship)
-    mail = driver.encontrar_elemento(tiempo_espera, ew.text_email)
-    tel = driver.encontrar_elemento(tiempo_espera, ew.text_phone_number)
-    continue_pay = driver.encontrar_elemento(tiempo_espera, ew.btn_continue_payment)
+    # Pagina Review
+    btn_place_your_order = driver.esperar_elemento(tiempo_espera, ew.btn_place_your_order)
+    btn_place_your_order.click()
+    sleep(6)
 
-    try:
-        # Relleno los textbox
-        accion.pause(3)
-        accion.send_keys_to_element(nom, nombre)
-        accion.send_keys_to_element(ape, apellido)
-        accion.send_keys_to_element(direc, direccion)
-        accion.send_keys_to_element(edif, edificio)
-        accion.move_to_element(zip_code)
-        accion.send_keys_to_element(zip_code, cod_postal + Keys.ENTER)
-        accion.move_to_element(continue_pay)
-        accion.send_keys_to_element(mail, email)
-        accion.send_keys_to_element(tel, telefono)
-        accion.click(continue_pay)
-        accion.pause(5)
-        accion.perform()
-        print('SE RELLENO SATISFACTORIAMENTE LOS DATOS')
-    except:
-        print('HA OCURRIDO UN ERROR CON LOS DATOS DE DOMICILIO\n FINALIZANDO BOT...')
+    if driver.url_actual() == ew.url_compra_realizada:
+        print('LA COMPRA HA SIDO EXITOSA')
+        nr_order = driver.esperar_elemento(tiempo_espera, ew.text_nr_orden)
+        dato = str(nr_order.text)
+        driver.escribir_texto(dato)
+    else:
+        print('HA FALLADO EL PROCESO DE PAGO, UTILIZAR OTRA TARJETA')
+        sleep(3)
         exit(1)
-   
-def rellenar_datos_tarjeta(driver, nr_tarjeta, fec_exp, cvv):
-    # Inicio una cadena de accciones
-    accion = ActionChains(driver.driver)
-
-    # Elementos a usar
-    opc_credit_card = driver.esperar_elemento(tiempo_espera, ew.btn_credit_card)
-    opc_credit_card.click()
-    btn_continue_review = driver.encontrar_elemento(tiempo_espera, ew.btn_continue_to_review)
-
-    try:
-        # Cargo los textos
-        card = driver.encontrar_elemento(tiempo_espera, ew.text_card)
-        exp = driver.encontrar_elemento(tiempo_espera, ew.text_expired)
-        codigo = driver.encontrar_elemento(tiempo_espera, ew.text_cvv)
-
-        accion.pause(5)
-        accion.send_keys_to_element(card, nr_tarjeta)
-        accion.send_keys_to_element(exp, fec_exp)
-        accion.send_keys_to_element(codigo, cvv)
-        accion.move_to_element(btn_continue_review)
-        accion.click(btn_continue_review)
-        accion.pause(5)
-        accion.perform()
-
-        print('SE RELLENO SATISFACTORIAMENTE LOS DATOS')
-    except:
-        print('HA OCURRIDO UN ERROR CON LOS DATOS DE LA TARJETA\n FINALIZANDO BOT...')
-        exit(1)
-
-
-
-
-    
         
 
 
