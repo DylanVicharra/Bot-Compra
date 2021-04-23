@@ -78,6 +78,7 @@ def seleccion_producto(driver, modelo, pantalla, capacidad, color, operador):
             
     except:
         print("HA OCURRIDO UN ERROR EN LA SELECCION DEL PRODUCTO")
+        driver.finalizar()
 
 def transpaso_operador(driver, nr_operador, cod_postal):
     # Veo si cargo el contenedor
@@ -108,6 +109,7 @@ def transpaso_operador(driver, nr_operador, cod_postal):
         print('SE HIZO LA VERIFICACION DEL OPERADOR SATISFACTORIAMENTE')
     except:
         print('HUBO UN ERROR EN LA VERIFICACION DEL OPERADOR')
+        driver.finalizar()
     
 def completar_compra_appleid(driver, usuario, password):
     try:
@@ -141,6 +143,7 @@ def completar_compra_appleid(driver, usuario, password):
         
     except:
         print('HUBO UN ERROR EN MEDIO DE LA COMPRA')
+        driver.finalizar()
 
 def terminar_compra(driver):
     #  Pagina Fulfillment
