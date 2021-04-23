@@ -1,43 +1,70 @@
 from bot import Bot
 from time import sleep
 import elementos_web as ew
-from compra import seleccion_producto, transpaso_operador, completar_compra
+import pandas as pd
+import lectura_datos as ld
+from compra import seleccion_producto, transpaso_operador, completar_compra_appleid
 
 
 def verificacion_datos(lista_datos):
     if lista_datos == []:
-        print('El archivo no contiene datos')
+        print('UNO DE LOS ARCHIVOS NO CONTIENE DATOS')
         exit(1)
     else: 
         return lista_datos
 
-
-def main():      
+def bot_compra(datos_iphone, operador, apple_id):      
+    
     # inicio el bot
-
     bot = Bot(ew.url_apple)
 
-    # Lista de datos que se utilizara
-    datos_domicilio = verificacion_datos(bot.leer_texto('datos_domicilio'))
-    datos_tarjeta = verificacion_datos(bot.leer_texto('datos_tarjeta'))
-    datos_iphone = verificacion_datos(bot.leer_texto('iphone'))
-    operador = datos_iphone[4]
+    # datos que se utilizara
     nro_operador = '7868639220'
+    cod_postal = '33178'
 
     # Usa diferentes botones la pagina si el celular es desbloqueado  
-     
     if operador == 'unlocked':
-        seleccion_producto(bot, datos_iphone[0], datos_iphone[1], datos_iphone[2], datos_iphone[3], datos_iphone[4])
+        seleccion_producto(bot, datos_iphone[0], datos_iphone[1], datos_iphone[2], datos_iphone[3], operador)
     else:
-        seleccion_producto(bot, datos_iphone[0], datos_iphone[1], datos_iphone[2], datos_iphone[3], datos_iphone[4])
-        transpaso_operador(bot, nro_operador, datos_domicilio[4])
+        seleccion_producto(bot, datos_iphone[0], datos_iphone[1], datos_iphone[2], datos_iphone[3], operador)
+        transpaso_operador(bot, nro_operador, cod_postal)
     
-    completar_compra(bot, datos_domicilio, datos_tarjeta)
+    completar_compra_appleid(bot, apple_id[0], apple_id[1])
+    
+    sleep(5)
 
-    sleep(10)
+    bot.finalizar()
 
     del bot
-        
+
+
+def lectura_excel():
+    # nombre del archivo excel a leer
+    archivo_excel = input("Ingrese el nombre del archivo (sin el .xlsx): ")     
+    # Revisa si existe el archivo
+    ld.existe_archivo(archivo_excel)
+    # Abre el archivo (camabiar la lista_celulares)
+    excel_celulares = pd.read_excel('lista_celulares.xlsx', engine='openpyxl')
+  
+    # Recorre cada fila del excel
+    for i in range(len(excel_celulares)):
+        modelo = excel_celulares.loc[i,"MODELO"]
+        apple_id = [excel_celulares.loc[i,"USUARIO"],excel_celulares.loc[i,"CONTRASEÑA"]]
+        operador = excel_celulares.loc[i,"OPERADOR"]
+        cantidad = excel_celulares.loc[i,"CANTIDAD"]
+
+        datos_iphone = ld.agrupacion_datos(modelo)
+
+        # Realiza la cantidad de veces que dice la cantidad (en este caso todos son verizon)        
+        for i in range(cantidad):
+            try:
+                print(f'SE ESTA COMPRANDO EL {modelo}, repeticion{1}')
+                bot_compra(datos_iphone, operador, apple_id)
+                print(f'SE COMPLETO LA COMPRA DE {modelo}')
+            except:
+                print(f'HA FALLADO LA COMPRA DEL {modelo}')
+
+    print("FINALIZANDO PROGRAMA")
 
 if __name__ == "__main__":
-    main()
+    lectura_excel()
