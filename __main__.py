@@ -44,7 +44,7 @@ def lectura_excel():
     # Revisa si existe el archivo
     ld.existe_archivo(archivo_excel)
     # Abre el archivo (camabiar la lista_celulares)
-    excel_celulares = pd.read_excel('lista_celulares.xlsx', engine='openpyxl')
+    excel_celulares = pd.read_excel(f'{archivo_excel}.xlsx', engine='openpyxl')
   
     # Recorre cada fila del excel
     for i in range(len(excel_celulares)):
@@ -58,7 +58,7 @@ def lectura_excel():
         # Realiza la cantidad de veces que dice la cantidad (en este caso todos son verizon)        
         for i in range(cantidad):
             try:
-                print(f'SE ESTA COMPRANDO EL {modelo}, repeticion{1}')
+                print(f'SE ESTA COMPRANDO EL {modelo}, repeticion: {i}')
                 bot_compra(datos_iphone, operador, apple_id)
                 print(f'SE COMPLETO LA COMPRA DE {modelo}')
             except:
