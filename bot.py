@@ -1,6 +1,5 @@
 import os.path as path
 from sys import platform
-from datetime import datetime
 from selenium import webdriver 
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
@@ -14,7 +13,8 @@ class Bot:
         os_confirm = self.ver_os()
         self.driver = webdriver.Chrome(executable_path=f"{os_confirm}")
         self.driver.get(url)
-        self.url_fallo = ''
+        self.estado = None
+        self.link_orden = None
 
     def get_driver(self):
         driver = self.driver
@@ -30,10 +30,6 @@ class Bot:
 
     def cambiar_url(self,nueva_url):
         self.driver.get(nueva_url)
-
-    def url_actual(self):
-        url_actual = str(self.driver.current_url)
-        return url_actual
     
     # Solo espera que el elemento este cargado en DOM
     def elemento_cargado(self, tiempo_espera, elemento):
@@ -54,9 +50,7 @@ class Bot:
             except (ElementNotInteractableException, NoSuchElementException):
                 wait = WebDriverWait(self.driver,tiempo_espera)
                 wait.until(ec.visibility_of_element_located((By.XPATH, elemento)))
-            except (TimeoutException):
-                print("Posiblemente el elemento no se encuentra en la pagina")
-                exit(1)
+               
 
     # Selecciona al elemento que solo este presente en el DOM 
     def encontrar_elemento(self, tiempo_espera, elemento):
@@ -65,7 +59,7 @@ class Bot:
             try: 
                 elemento_encontrado = self.driver.find_element_by_xpath(elemento)
                 return elemento_encontrado
-            except (ElementNotInteractableException, NoSuchElementException):
+            except (NoSuchElementException):
                 wait = WebDriverWait(self.driver,tiempo_espera)
                 wait.until(ec.presence_of_element_located((By.XPATH, elemento)))
     
@@ -80,14 +74,6 @@ class Bot:
         else: 
             print(f'El archivo {archivo}.text no admitido, renombrelo y vuelva intentar')
             return lista_datos
-
-    def escribir_texto(self, dato):
-        if path.exists('numero_orden.txt') == False:
-            with open('numero_orden.txt', 'w') as orden:
-                orden.write(f'Fecha:{datetime.now()} ---- {dato}' + "\n")
-        else: 
-            with open('nuevo_archivo.txt', 'a') as orden:
-                orden.write(f'Fecha:{datetime.now()} ---- {dato}' + "\n")
 
     def finalizar(self):
         self.driver.quit()

@@ -1,9 +1,11 @@
 from bot import Bot
 from time import sleep
+from datetime import datetime
 import elementos_web as ew
 import pandas as pd
+import openpyxl as op
 import lectura_datos as ld
-from compra import seleccion_producto, transpaso_operador, completar_compra_appleid
+from compra import seleccion_producto, transpaso_operador, completar_compra_appleid, obtener_orden
 
 
 def verificacion_datos(lista_datos):
@@ -29,13 +31,9 @@ def bot_compra(datos_iphone, operador, apple_id):
         seleccion_producto(bot, datos_iphone[0], datos_iphone[1], datos_iphone[2], datos_iphone[3], operador)
         transpaso_operador(bot, nro_operador, cod_postal)
     
-    completar_compra_appleid(bot, apple_id[0], apple_id[1])
-    
-    sleep(5)
-
-    bot.finalizar()
-
-    del bot
+    completar_compra_appleid(bot, apple_id[0], apple_id[1]) 
+   
+    return bot
 
 
 def lectura_excel():
@@ -45,7 +43,7 @@ def lectura_excel():
     ld.existe_archivo(archivo_excel)
     # Abre el archivo (camabiar la lista_celulares)
     excel_celulares = pd.read_excel(f'{archivo_excel}.xlsx', engine='openpyxl')
-  
+
     # Recorre cada fila del excel
     for i in range(len(excel_celulares)):
         modelo = excel_celulares.loc[i,"MODELO"]
@@ -55,14 +53,23 @@ def lectura_excel():
 
         datos_iphone = ld.agrupacion_datos(modelo)
 
-        # Realiza la cantidad de veces que dice la cantidad (en este caso todos son verizon)        
-        for i in range(cantidad):
+        print(f'SE ESTA COMPRANDO EL {modelo}')
+        # Realiza la cantidad de veces que dice la variable cantidad (en este caso todos son verizon)        
+        for rep in range(cantidad):
             try:
-                print(f'SE ESTA COMPRANDO EL {modelo}, repeticion: {i}')
-                bot_compra(datos_iphone, operador, apple_id)
-                print(f'SE COMPLETO LA COMPRA DE {modelo}')
+                print(f'repeticion: {rep+1}')
+                bot_auxiliar = bot_compra(datos_iphone, operador, apple_id)
+                excel_celulares.loc[i,"ORDEN"] = bot_auxiliar.link_orden
+                excel_celulares.loc[i,"ESTADO"] = "Finalizado"
+                bot_auxiliar.finalizar()
+                del bot_auxiliar
             except:
+                excel_celulares.loc[i,"ORDEN"] = None
+                excel_celulares.loc[i,"ESTADO"] = "Pendiente"
                 print(f'HA FALLADO LA COMPRA DEL {modelo}')
+
+
+    excel_celulares.to_excel(f'{str(datetime.today()).replace(":","")}_{archivo_excel}.xlsx', sheet_name = f'Ordenes',index = False)
 
     print("FINALIZANDO PROGRAMA")
 

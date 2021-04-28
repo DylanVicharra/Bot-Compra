@@ -14,10 +14,6 @@ def seleccion_producto(driver, modelo, pantalla, capacidad, color, operador):
     # Direcciono a la pagina del producto
     url_producto_especifico = f'{ew.url_producto}/{modelo}/{pantalla}-{capacidad}-{color}-{operador}'
     driver.cambiar_url(url_producto_especifico)
-
-    # Veo si cargo la pagina y contenedor de los botones:
-    driver.elemento_cargado(tiempo_espera, ew.web_apple_producto)
-    driver.elemento_cargado(tiempo_espera, ew.contenedor_botones_producto)
     
     # Cargo elementos a utilizar:
     trade = driver.encontrar_elemento(tiempo_espera, ew.btn_trade)
@@ -171,17 +167,24 @@ def terminar_compra(driver):
     # Pagina Review
     btn_place_your_order = driver.esperar_elemento(tiempo_espera, ew.btn_place_your_order)
     btn_place_your_order.click()
-    sleep(6)
+    sleep(4)
 
-    if driver.url_actual() == ew.url_compra_realizada:
+    obtener_orden(driver)
+
+        
+def obtener_orden(driver):
+    try:
+        nr_orden = driver.esperar_elemento(tiempo_espera, ew.text_nr_orden)
+        link_orden = nr_orden.get_attribute('href')
+        driver.estado = 'Completado'
+        driver.link_orden = link_orden
         print('LA COMPRA HA SIDO EXITOSA')
-        nr_order = driver.esperar_elemento(tiempo_espera, ew.text_nr_orden)
-        dato = str(nr_order.text)
-        driver.escribir_texto(dato)
-    else:
+        sleep(3)
+    except:
         print('HA FALLADO EL PROCESO DE PAGO, UTILIZAR OTRA TARJETA')
+        driver.finalizar()
         sleep(3)
         
-        
+
 
 

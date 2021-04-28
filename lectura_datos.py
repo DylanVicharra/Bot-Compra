@@ -29,5 +29,4 @@ def agrupacion_datos(descripcion):
     nuevos_datos = datos.lower().split(' ')
     # Uno las dos listas en una sola
     modelo_iphone.extend(nuevos_datos)
-    print(modelo_iphone)
     return modelo_iphone

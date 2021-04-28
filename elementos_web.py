@@ -10,17 +10,15 @@ web_apple_producto = '/html/body/div[2]'
 contenedor_botones_producto = '/html/body/div[2]/div[7]/div[2]/div'
 
 # botones y textos para seleccion producto con operardor
-
-text_stock = '//*[@id="primary"]/summary-builder/div[2]/div[1]/materializer/div[1]/div/div/ul/li[1]/span'
-btn_trade = '//*[@id="tradeup-inline-heroselector"]/div/div/fieldset/div/div[1]/div/div' 
-btn_full_price = '/html/body/div[2]/div[7]/div[2]/div/store-provider/step1-flagship/div/div[3]/materializer[2]/purchase-options/fieldset/materializer[1]/div/div[1]/div/div/label'
-btn_continue_product = '/html/body/div[2]/div[7]/div[2]/div/store-provider/step1-flagship/div/div[3]/summary-builder/div[2]/div[1]/div/div[1]/div[2]/div/div/form/div/span/button'
+btn_trade = '//*[@id="noTradeIn"]' 
+btn_full_price = '//*[@id="po_group_1"]'
+btn_continue_product = '//*[@id="primary"]/summary-builder/div[2]/div[1]/div/div[1]/div[2]/div/div/form/div/span/button'
 
 # botones y textos para seleccion producto sin operador  
 btn_full_price_unlocked = '//*[@id="fullPrice"]'
 btn_add_bag = '/html/body/div[2]/div[7]/div[2]/div/store-provider/step1-flagship/div/div[3]/summary-builder/div[2]/div[1]/div/div[1]/div[2]/div/div/form/div/span/button'
 
-# aparece cuando no es un iphone 12, ventana que activacion
+# aparece cuando no es un iphone 12, ventana de activacion
 btn_activation_carrier_now = '/html/body/div[2]/div[7]/div/div/div[2]/div[1]/form/div[1]/span/button'
 
 # botones y textos para verificacion del operador
