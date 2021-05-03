@@ -1,3 +1,4 @@
+
 # Pagina Apple 
 url_apple = 'https://www.apple.com'
 url_producto = f'{url_apple}/shop/buy-iphone'

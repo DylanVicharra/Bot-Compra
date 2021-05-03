@@ -79,27 +79,24 @@ def lectura_excel():
                 
                     if estado == 'Completado':
                         # Escribo el estado
-                        ld.escribir_excel(excel_a_modificar, hoja_calculo, i+2, 8, "Finalizado")
+                        ld.escribir_celda_excel(excel_a_modificar, hoja_calculo, i+2, 8, "Finalizado")
                         # Escribo el link de orden
-                        ld.escribir_excel(excel_a_modificar, hoja_calculo, i+2, 2, orden)
+                        ld.escribir_hipervinculo_excel(excel_a_modificar, hoja_calculo, i+2, 2, orden)
                         # Escribo la fecha
-                        ld.escribir_excel(excel_a_modificar, hoja_calculo, i+2, 1, str(date.today()))
-                        print("------------------------------------------------------------------------------------")
+                        ld.escribir_celda_excel(excel_a_modificar, hoja_calculo, i+2, 1, str(date.today()))
+                        print("---------------------------------------------------------------------------------------------------------")
                     elif estado == 'Fallido':
                         # Escribo el estado
-                        ld.escribir_excel(excel_a_modificar, hoja_calculo, i+2, 8, "Pendiente")
-                        # Escribo el link de orden
-                        ld.escribir_excel(excel_a_modificar, hoja_calculo, i+2, 2, orden)
+                        ld.escribir_celda_excel(excel_a_modificar, hoja_calculo, i+2, 8, "Pendiente")
                         print(f'HA FALLADO LA COMPRA DEL {modelo}') 
-                        print("------------------------------------------------------------------------------------")
+                        print("---------------------------------------------------------------------------------------------------------")
 
                 except:
                     # Escribo el estado
-                    ld.escribir_excel(excel_a_modificar, hoja_calculo, i+2, 8, "Pendiente")
-                    # Escribo el link de orden
-                    ld.escribir_excel(excel_a_modificar, hoja_calculo, i+2, 2, None)
+                    ld.escribir_celda_excel(excel_a_modificar, hoja_calculo, i+2, 8, "Pendiente")
+
                     print(f'HA FALLADO LA COMPRA DEL {modelo}')
-                    print("------------------------------------------------------------------------------------")
+                    print("---------------------------------------------------------------------------------------------------------")
 
         elif operador == 'unlocked':
             try:
@@ -107,26 +104,24 @@ def lectura_excel():
                 
                 if estado == 'Completado':
                     # Escribo el estado
-                    ld.escribir_excel(excel_a_modificar, hoja_calculo, i+2, 8, "Finalizado")
+                    ld.escribir_celda_excel(excel_a_modificar, hoja_calculo, i+2, 8, "Finalizado")
                     # Escribo el link de orden
-                    ld.escribir_excel(excel_a_modificar, hoja_calculo, i+2, 2, orden)
+                    ld.escribir_hipervinculo_excel(excel_a_modificar, hoja_calculo, i+2, 2, orden)
                     # Escribo la fecha
-                    ld.escribir_excel(excel_a_modificar, hoja_calculo, i+2, 1, str(date.today()))
-                    print("------------------------------------------------------------------------------------")
+                    ld.escribir_celda_excel(excel_a_modificar, hoja_calculo, i+2, 1, str(date.today()))
+                    print("---------------------------------------------------------------------------------------------------------")
                 elif estado == 'Fallido':
                     # Escribo el estado
-                    ld.escribir_excel(excel_a_modificar, hoja_calculo, i+2, 8, "Pendiente")
-                    # Escribo el link de orden
-                    ld.escribir_excel(excel_a_modificar, hoja_calculo, i+2, 2, orden)
+                    ld.escribir_celda_excel(excel_a_modificar, hoja_calculo, i+2, 8, "Pendiente")
+
                     print(f'HA FALLADO LA COMPRA DEL {modelo}') 
-                    print("------------------------------------------------------------------------------------")
+                    print("---------------------------------------------------------------------------------------------------------")
             except:
                 # Escribo el estado
-                ld.escribir_excel(excel_a_modificar, hoja_calculo, i+2, 8, "Pendiente")
-                # Escribo el link de orden
-                ld.escribir_excel(excel_a_modificar, hoja_calculo, i+2, 2, None)
+                ld.escribir_celda_excel(excel_a_modificar, hoja_calculo, i+2, 8, "Pendiente")
+        
                 print(f'HA FALLADO LA COMPRA DEL {modelo}')
-                print("------------------------------------------------------------------------------------")
+                print("---------------------------------------------------------------------------------------------------------")
 
     # Se guarda el archivo en cuestion
     excel_a_modificar.save(f'{archivo_excel}.xlsx')

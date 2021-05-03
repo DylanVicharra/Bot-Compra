@@ -206,7 +206,7 @@ def obtener_orden(driver):
         link_orden = nr_orden.get_attribute('href')
         nombre = nr_orden.text
         driver.estado = 'Completado'
-        driver.link_orden = f'=HIPERVINCULO("{link_orden}","{nombre}")'
+        driver.link_orden = [str(link_orden), str(nombre)]
         print('LA COMPRA HA SIDO EXITOSA')
         sleep(3)
     except:

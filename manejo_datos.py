@@ -46,9 +46,16 @@ def limpieza_datos(archivo_excel):
     archivo_excel = archivo_excel.drop(archivo_excel[archivo_excel['STATUS']=='Finalizado'].index)
     return archivo_excel
 
-def escribir_excel(archivo_a_modificar, hoja, fila, columna, dato):
+def escribir_celda_excel(archivo_a_modificar, hoja, fila, columna, dato):
     #Busco la hoja donde tengo que modificar 
     hoja_a_modificar = archivo_a_modificar.get_sheet_by_name(hoja)
     #Escribo la celda
     hoja_a_modificar.cell(row = fila, column = columna).value = dato
+
+def escribir_hipervinculo_excel(archivo_a_modificar, hoja, fila, columna, datos_vinculo):
+    #Busco la hoja donde tengo que modificar
+    hoja_a_modificar = archivo_a_modificar.get_sheet_by_name(hoja)
+    #Escribo el hipervinculo en la celda
+    hoja_a_modificar.cell(row = fila, column = columna).hyperlink = datos_vinculo[0]
+    hoja_a_modificar.cell(row = fila, column = columna).value = datos_vinculo[1]
     
