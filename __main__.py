@@ -85,6 +85,7 @@ def lectura_excel():
                         # Escribo la fecha
                         ld.escribir_celda_excel(excel_a_modificar, hoja_calculo, i+2, 1, str(date.today()))
                         print("---------------------------------------------------------------------------------------------------------")
+                        sleep(10)
                     elif estado == 'Fallido':
                         # Escribo el estado
                         ld.escribir_celda_excel(excel_a_modificar, hoja_calculo, i+2, 8, "Pendiente")
@@ -110,6 +111,7 @@ def lectura_excel():
                     # Escribo la fecha
                     ld.escribir_celda_excel(excel_a_modificar, hoja_calculo, i+2, 1, str(date.today()))
                     print("---------------------------------------------------------------------------------------------------------")
+                    sleep(10)
                 elif estado == 'Fallido':
                     # Escribo el estado
                     ld.escribir_celda_excel(excel_a_modificar, hoja_calculo, i+2, 8, "Pendiente")
