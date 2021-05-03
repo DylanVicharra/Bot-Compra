@@ -36,6 +36,9 @@ def bot_compra(datos_iphone, operador, apple_id, cantidad):
 
 def lectura_excel():
     try: 
+        print("         ---------- BOT APPLE -----------                ")
+        print("SE NECESITA QUE SE INGRESE EL NOMBRE DE UN ARCHIVO EXCEL Y EL NOMBRE DE UNA HOJA DEL MISMO ARCHIVO ")
+        print("Ingrese los siguientes datos. Nombre excel: BOT, Hoja: Compras")
         # nombre del archivo excel a leer
         archivo_excel = input("Ingrese el nombre del archivo (sin el .xlsx): ")
         hoja_calculo = input("Ingrese el nombre de la hoja donde se encuentra la tabla: ")   
