@@ -3,7 +3,7 @@ from selenium import webdriver
 from selenium.webdriver import ActionChains
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support.ui import WebDriverWait, Select
 from selenium.webdriver.support import expected_conditions as ec 
 from selenium.common.exceptions import TimeoutException, NoSuchElementException, ElementClickInterceptedException, ElementNotInteractableException, WebDriverException
 import elementos_web as ew 
@@ -74,6 +74,7 @@ def seleccion_producto(driver, modelo, pantalla, capacidad, color, operador):
             
     except:
         print("HA OCURRIDO UN ERROR EN LA SELECCION DEL PRODUCTO")
+        driver.estado = 'Fallido'
         driver.finalizar()
 
 def transpaso_operador(driver, nr_operador, cod_postal):
@@ -105,16 +106,11 @@ def transpaso_operador(driver, nr_operador, cod_postal):
         print('SE HIZO LA VERIFICACION DEL OPERADOR SATISFACTORIAMENTE')
     except:
         print('HUBO UN ERROR EN LA VERIFICACION DEL OPERADOR')
+        driver.estado = 'Fallido'
         driver.finalizar()
-    
-def completar_compra_appleid(driver, usuario, password):
+
+def logueo_appleid(driver, usuario, password):
     try:
-        # Voy a la bolsa de apple para completar la compra
-        driver.cambiar_url(ew.url_bag)
-
-        btn_checkout = driver.esperar_elemento(tiempo_espera, ew.btn_checkout)
-        btn_checkout.click()
-
         # Veo si cargo el contenedor
         driver.elemento_cargado(tiempo_espera, ew.contenedor_apple_id)
 
@@ -134,57 +130,89 @@ def completar_compra_appleid(driver, usuario, password):
         accion.send_keys_to_element(password_id, password + Keys.ENTER)
         accion.pause(5)
         accion.perform()
-
-        terminar_compra(driver)
-        
     except:
-        print('HUBO UN ERROR EN MEDIO DE LA COMPRA')
+        print("HA OCURRIDO UN ERROR INICIANDO SESION EN APPLE ID")
+        driver.estado = 'Fallido'
+        driver.finalizar()
+
+def checkout(driver, cantidad, operador):
+    try:
+        # Voy a la bolsa de apple para completar la compra
+        driver.cambiar_url(ew.url_bag)
+
+        # Elijo la cantidad del producto que deseeo comprar (solo si este es unlocked)
+        if operador == 'unlocked':
+            driver_aux = driver.get_driver()
+            # Selecciono la lista desplegable
+            driver_aux.find_element(By.TAG_NAME,'select')
+            select_cantidad = driver_aux.find_element_by_tag_name('select')
+            seleccion_cant = Select(select_cantidad)
+            if cantidad < 10:
+                # Selecciona la cantidad que deseo
+                seleccion_cant.select_by_value(str(cantidad))
+            else:
+                seleccion_cant.select_by_value('10+')
+                sleep(3)
+                driver_aux.find_element(By.XPATH,"//input[@type='tel'][@value='10']")
+                texto_cant = driver_aux.find_element_by_xpath("//input[@type='tel'][@value='10']")
+                texto_cant.send_keys(str(cantidad) + Keys.ENTER)
+
+        # Presiono el boton de checkout para pasar al logueo
+        btn_checkout = driver.esperar_elemento(tiempo_espera, ew.btn_checkout)
+        btn_checkout.click()
+        
+    except Exception as ex:
+        print(type(ex).__name__)
+        print('HUBO UN ERROR EN EL CARRITO')
+        driver.estado = 'Fallido'
         driver.finalizar()
 
 def terminar_compra(driver):
-    #  Pagina Fulfillment
-    btn_continue_shipping = driver.esperar_elemento(tiempo_espera, ew.btn_continue_shipping)
-    btn_continue_shipping.click()
+    try:
+        #  Pagina Fulfillment
+        btn_continue_shipping = driver.esperar_elemento(tiempo_espera, ew.btn_continue_shipping)
+        btn_continue_shipping.click()
 
-    #  Pagina Shipping
-    accion = ActionChains(driver.get_driver())
-    btn_continue_payment = driver.esperar_elemento(tiempo_espera, ew.btn_continue_payment)
-    accion.click(btn_continue_payment)
-    accion.pause(3)
-    accion.perform()
+        #  Pagina Shipping
+        accion = ActionChains(driver.get_driver())
+        btn_continue_payment = driver.esperar_elemento(tiempo_espera, ew.btn_continue_payment)
+        accion.click(btn_continue_payment)
+        accion.pause(3)
+        accion.perform()
 
-    # Pagina Billing 
-    # Elementos a usar 
-    accion = ActionChains(driver.get_driver())
-    btn_card = driver.esperar_elemento(tiempo_espera, ew.btn_credit_card)
-    accion.click(btn_card)
-    accion.pause(2)
-    accion.perform()
-    
-    btn_continue_review = driver.esperar_elemento(tiempo_espera, ew.btn_continue_to_review)
-    btn_continue_review.click()
+        # Pagina Billing 
+        # Elementos a usar 
+        accion = ActionChains(driver.get_driver())
+        btn_card = driver.esperar_elemento(tiempo_espera, ew.btn_credit_card)
+        accion.click(btn_card)
+        accion.pause(2)
+        accion.perform()
+        
+        btn_continue_review = driver.esperar_elemento(tiempo_espera, ew.btn_continue_to_review)
+        btn_continue_review.click()
 
-    # Pagina Review
-    btn_place_your_order = driver.esperar_elemento(tiempo_espera, ew.btn_place_your_order)
-    btn_place_your_order.click()
-    sleep(4)
-
-    obtener_orden(driver)
-
+        # Pagina Review
+        btn_place_your_order = driver.esperar_elemento(tiempo_espera, ew.btn_place_your_order)
+        btn_place_your_order.click()
+        sleep(4)
+    except:
+        print("HUBO UN ERROR EN LA SELECCION DE ENVIO Y TARJETA")
+        driver.estado = 'Fallido'
+        driver.finalizar()
         
 def obtener_orden(driver):
     try:
         nr_orden = driver.esperar_elemento(tiempo_espera, ew.text_nr_orden)
         link_orden = nr_orden.get_attribute('href')
+        nombre = nr_orden.text
         driver.estado = 'Completado'
-        driver.link_orden = link_orden
+        driver.link_orden = f'=HIPERVINCULO("{link_orden}","{nombre}")'
         print('LA COMPRA HA SIDO EXITOSA')
         sleep(3)
     except:
         print('HA FALLADO EL PROCESO DE PAGO, UTILIZAR OTRA TARJETA')
+        driver.estado = 'Fallido'
         driver.finalizar()
         sleep(3)
         
-
-
 

@@ -62,20 +62,14 @@ class Bot:
             except (NoSuchElementException):
                 wait = WebDriverWait(self.driver,tiempo_espera)
                 wait.until(ec.presence_of_element_located((By.XPATH, elemento)))
-    
-    def leer_texto(self, archivo):
-        lista_datos = []
-        if archivo == 'datos_domicilio' or archivo == 'datos_tarjeta' or archivo == 'iphone' or archivo == 'apple_id':
-            lectura = open(f'{archivo}.txt','r')
-            for linea in lectura:
-                lista_datos.append(linea.strip('\n'))
-            lectura.close()
-            return lista_datos
-        else: 
-            print(f'El archivo {archivo}.text no admitido, renombrelo y vuelva intentar')
-            return lista_datos
 
     def finalizar(self):
         self.driver.quit()
+
+    def get_estado(self):
+        return self.estado
+
+    def get_orden(self):
+        return self.link_orden
 
 
