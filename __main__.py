@@ -15,33 +15,34 @@ def bot_compra(datos_iphone, operador, apple_id, cantidad):
     # datos que se utilizara
     nro_operador = '7868639220'
     cod_postal = '33178'
+     
+    funciones = {compra.seleccion_producto:[bot, datos_iphone[0], datos_iphone[1], datos_iphone[2], datos_iphone[3], operador], compra.transpaso_operador:[bot, nro_operador, cod_postal, operador],
+                 compra.checkout:[bot, cantidad, operador], compra.logueo_appleid:[bot, apple_id[0], apple_id[1]], compra.terminar_compra:[bot], compra.obtener_orden:[bot]
+                }
 
-    # Usa diferentes botones la pagina si el celular es desbloqueado  
-    compra.seleccion_producto(bot, datos_iphone[0], datos_iphone[1], datos_iphone[2], datos_iphone[3], operador)
-    # Hace la verificacion del operador (solo si este no es unlocked)
-    if operador != 'unlocked':
-        compra.transpaso_operador(bot, nro_operador, cod_postal)
-    # Realiza en bolsa la seleccion de cantidad del producto 
-    compra.checkout(bot, cantidad, operador)
-    # Realiza el logueo del usuario
-    compra.logueo_appleid(bot, apple_id[0], apple_id[1])
-    # Realiza los siguientes, que son seleccion de envio y seleccion de tarjeta
-    compra.terminar_compra(bot) 
-    # Guarada en el bot la orden de compra, caso contrario termina
-    compra.obtener_orden(bot)
-    
+    for funcion in funciones:
+        try:
+            funcion(*funciones[funcion])
+        except Exception as ex:
+            error_name = type(ex).__name__
+            print(f'HA OCURRIDO UN ERROR EN {bot.get_etapa()} - {error_name}')
+            if bot.get_etapa()=='OBTENCION DE LA ORDEN':
+                print("LA TARJETA POSIBLEMENTE NO TIENE FONDOS, INTENTAR CON OTRA")
+            bot.finalizar()
+            bot.set_estado('Fallido')
+            break
+
     bot.finalizar()
-
     return bot.get_estado(), bot.get_orden()
 
 def lectura_excel():
     try: 
         print("         ---------- BOT APPLE -----------                ")
         print("SE NECESITA QUE SE INGRESE EL NOMBRE DE UN ARCHIVO EXCEL Y EL NOMBRE DE UNA HOJA DEL MISMO ARCHIVO ")
-        print("Ingrese los siguientes datos. Nombre excel: BOT, Hoja: Compras")
+        print("Se usara como archivo predeterminado el BOT.xlsx, Hoja: Compras")
         # nombre del archivo excel a leer
-        archivo_excel = input("Ingrese el nombre del archivo (sin el .xlsx): ")
-        hoja_calculo = input("Ingrese el nombre de la hoja donde se encuentra la tabla: ")   
+        archivo_excel = 'BOT'
+        hoja_calculo = 'Compras'  
         # Elimino los espacios en blanco que tengan  
         archivo_excel = archivo_excel.strip()
         hoja_calculo = hoja_calculo.strip()

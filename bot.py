@@ -6,15 +6,18 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec 
 from selenium.common.exceptions import TimeoutException, NoSuchElementException, ElementNotInteractableException
+from selenium.webdriver.chrome.options import Options
 
 
 class Bot: 
     def __init__(self, url):
         os_confirm = self.ver_os()
-        self.driver = webdriver.Chrome(executable_path=f"{os_confirm}")
+        options = self.opciones()
+        self.driver = webdriver.Chrome(executable_path=f"{os_confirm}", chrome_options=options)
         self.driver.get(url)
         self.estado = None
         self.link_orden = None
+        self.etapa = None 
 
     def get_driver(self):
         driver = self.driver
@@ -71,5 +74,21 @@ class Bot:
 
     def get_orden(self):
         return self.link_orden
+    
+    def get_etapa(self):
+        return self.etapa
 
+    def opciones(self):
+        chrome_options = Options()
+        chrome_options.add_argument("--disable-gpu")
+        chrome_options.add_argument("--log-level=3")
+        return chrome_options
 
+    def set_estado(self, nuevo_estado):
+        self.estado = nuevo_estado
+
+    def set_orden(self, nuevo_orden):
+        self.link_orden = nuevo_orden
+
+    def set_etapa(self, nueva_etapa):
+        self.etapa = nueva_etapa
