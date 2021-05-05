@@ -25,9 +25,11 @@ def bot_compra(datos_iphone, operador, apple_id, cantidad):
             funcion(*funciones[funcion])
         except Exception as ex:
             error_name = type(ex).__name__
-            print(f'HA OCURRIDO UN ERROR EN {bot.get_etapa()} - {error_name}')
             if bot.get_etapa()=='OBTENCION DE LA ORDEN':
+                print(f'HA OCURRIDO UN ERROR EN {bot.get_etapa()}')
                 print("LA TARJETA POSIBLEMENTE NO TIENE FONDOS, INTENTAR CON OTRA")
+            else: 
+                print(f'HA OCURRIDO UN ERROR EN {bot.get_etapa()} - {error_name}')
             bot.finalizar()
             bot.set_estado('Fallido')
             break
@@ -127,7 +129,7 @@ def lectura_excel():
                 print("---------------------------------------------------------------------------------------------------------")
 
     # Se guarda el archivo en cuestion
-    excel_a_modificar.save(f'{archivo_excel}.xlsx')
+    excel_a_modificar.save(f'{date.today()}-{archivo_excel}.xlsx')
 
     print("FINALIZANDO PROGRAMA")
 
