@@ -50,7 +50,7 @@ class Bot:
             try: 
                 elemento_cargado = self.driver.find_element_by_xpath(elemento)
                 return elemento_cargado
-            except (ElementNotInteractableException, NoSuchElementException):
+            except (ElementNotInteractableException, NoSuchElementException, TimeoutException):
                 wait = WebDriverWait(self.driver,tiempo_espera)
                 wait.until(ec.visibility_of_element_located((By.XPATH, elemento)))
                

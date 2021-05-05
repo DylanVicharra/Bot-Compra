@@ -8,7 +8,7 @@ from selenium.webdriver.support import expected_conditions as ec
 from selenium.common.exceptions import TimeoutException, NoSuchElementException, ElementClickInterceptedException, ElementNotInteractableException, WebDriverException
 import elementos_web as ew 
 
-tiempo_espera = 5
+tiempo_espera = 8
 
 def seleccion_producto(driver, modelo, pantalla, capacidad, color, operador):
     driver.set_etapa('SELECCION PRODUCTO')
@@ -91,7 +91,7 @@ def transpaso_operador(driver, nr_operador, cod_postal, operador):
         accion.send_keys_to_element(operador, nr_operador)
         accion.send_keys_to_element(cod, cod_postal)
         accion.click(siguiente)
-        accion.pause(3)
+        accion.pause(5)
         accion.perform()
         # Nueva pagina donde aparece un aviso y un boton para agregar el producto en carrito
         # Acciones
@@ -99,7 +99,7 @@ def transpaso_operador(driver, nr_operador, cod_postal, operador):
         confirmar_operador = driver.esperar_elemento(tiempo_espera, ew.btn_add_bag_2)
         accion.move_to_element(confirmar_operador)
         accion.click(confirmar_operador)
-        accion.pause(2)
+        accion.pause(5)
         accion.perform()
         print('SE HIZO LA VERIFICACION DEL OPERADOR SATISFACTORIAMENTE')
         
@@ -124,7 +124,7 @@ def logueo_appleid(driver, usuario, password):
     # Elemento a usar
     password_id = driver.encontrar_elemento(tiempo_espera, ew.text_password)
     accion.send_keys_to_element(password_id, password + Keys.ENTER)
-    accion.pause(5)
+    accion.pause(6)
     accion.perform()
     print("SE INICIO SESION EN APPLE ID CORRECTAMENTE")
     
@@ -191,7 +191,7 @@ def terminar_compra(driver):
     btn_place_your_order = driver.esperar_elemento(tiempo_espera, ew.btn_place_your_order)
     btn_place_your_order.click()
     sleep(4)
-    print("SE SELECCIONO TIPO DE ENTRAGA Y TARJETA CORRECTAMENTE")
+    print("SE SELECCIONO TIPO DE ENTREGA Y TARJETA CORRECTAMENTE")
     
         
 def obtener_orden(driver):
