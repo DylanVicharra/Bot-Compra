@@ -170,13 +170,14 @@ def terminar_compra(driver):
     btn_continue_shipping = driver.esperar_elemento(tiempo_espera, ew.btn_continue_shipping)
     accion.move_to_element(btn_continue_shipping)
     accion.click(btn_continue_shipping)
+    accion.pause(5)
     accion.perform()
 
     #  Pagina Shipping
     accion = ActionChains(driver.get_driver())
     btn_continue_payment = driver.esperar_elemento(tiempo_espera, ew.btn_continue_payment)
     accion.click(btn_continue_payment)
-    accion.pause(3)
+    accion.pause(5)
     accion.perform()
 
     # Pagina Billing 
@@ -184,7 +185,7 @@ def terminar_compra(driver):
     accion = ActionChains(driver.get_driver())
     btn_card = driver.esperar_elemento(tiempo_espera, ew.btn_credit_card)
     accion.click(btn_card)
-    accion.pause(2)
+    accion.pause(3)
     accion.perform()
         
     btn_continue_review = driver.esperar_elemento(tiempo_espera, ew.btn_continue_to_review)
@@ -193,7 +194,7 @@ def terminar_compra(driver):
     # Pagina Review
     btn_place_your_order = driver.esperar_elemento(tiempo_espera, ew.btn_place_your_order)
     btn_place_your_order.click()
-    sleep(4)
+    sleep(5)
     print("SE SELECCIONO TIPO DE ENTREGA Y TARJETA CORRECTAMENTE")
     
         
