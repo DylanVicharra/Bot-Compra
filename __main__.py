@@ -60,7 +60,7 @@ def lectura_excel():
     excel_celulares = ld.limpieza_datos(excel_celulares)
     
     # Abre archivo a modificar 
-    excel_a_modificar = op.load_workbook(f'{archivo_excel}.xlsx')
+    excel_a_modificar = op.load_workbook(f'{archivo_excel}.xlsx', data_only=True)
     
     # Recorre cada fila del excel
     for i in excel_celulares.index:

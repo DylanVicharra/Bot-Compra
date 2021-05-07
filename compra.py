@@ -8,7 +8,7 @@ from selenium.webdriver.support import expected_conditions as ec
 from selenium.common.exceptions import TimeoutException, NoSuchElementException, ElementClickInterceptedException, ElementNotInteractableException, WebDriverException
 import elementos_web as ew 
 
-tiempo_espera = 8
+tiempo_espera = 10
 
 def seleccion_producto(driver, modelo, pantalla, capacidad, color, operador):
     driver.set_etapa('SELECCION PRODUCTO')
