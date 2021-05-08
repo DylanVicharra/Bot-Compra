@@ -60,7 +60,7 @@ def lectura_excel():
     excel_celulares = ld.limpieza_datos(excel_celulares)
     
     # Abre archivo a modificar 
-    excel_a_modificar = op.load_workbook(f'{archivo_excel}.xlsx', data_only=True)
+    excel_a_modificar = ld.crear_archivo(archivo_excel)
     
     # Recorre cada fila del excel
     for i in excel_celulares.index:
@@ -81,23 +81,16 @@ def lectura_excel():
                     estado, orden = bot_compra(datos_iphone, operador, apple_id, cantidad)
                 
                     if estado == 'Completado':
-                        # Escribo el estado
-                        ld.escribir_celda_excel(excel_a_modificar, hoja_calculo, i+2, 8, "Finalizado")
                         # Escribo el link de orden
-                        ld.escribir_hipervinculo_excel(excel_a_modificar, hoja_calculo, i+2, 2, orden)
-                        # Escribo la fecha
-                        ld.escribir_celda_excel(excel_a_modificar, hoja_calculo, i+2, 1, str(date.today()))
+                        ld.escribir_hipervinculo_excel(excel_a_modificar, "Ordenes", i+1, 1, orden)
                         print("---------------------------------------------------------------------------------------------------------")
                         sleep(10)
                     elif estado == 'Fallido':
-                        # Escribo el estado
-                        ld.escribir_celda_excel(excel_a_modificar, hoja_calculo, i+2, 8, "Pendiente")
+
                         print(f'HA FALLADO LA COMPRA DEL {modelo}') 
                         print("---------------------------------------------------------------------------------------------------------")
 
                 except:
-                    # Escribo el estado
-                    ld.escribir_celda_excel(excel_a_modificar, hoja_calculo, i+2, 8, "Pendiente")
 
                     print(f'HA FALLADO LA COMPRA DEL {modelo}')
                     print("---------------------------------------------------------------------------------------------------------")
@@ -107,23 +100,15 @@ def lectura_excel():
                 estado, orden = bot_compra(datos_iphone, operador, apple_id, cantidad)
                 
                 if estado == 'Completado':
-                    # Escribo el estado
-                    ld.escribir_celda_excel(excel_a_modificar, hoja_calculo, i+2, 8, "Finalizado")
                     # Escribo el link de orden
-                    ld.escribir_hipervinculo_excel(excel_a_modificar, hoja_calculo, i+2, 2, orden)
-                    # Escribo la fecha
-                    ld.escribir_celda_excel(excel_a_modificar, hoja_calculo, i+2, 1, str(date.today()))
+                    ld.escribir_hipervinculo_excel(excel_a_modificar, "Ordenes", i+1, 1, orden)
                     print("---------------------------------------------------------------------------------------------------------")
                     sleep(10)
                 elif estado == 'Fallido':
-                    # Escribo el estado
-                    ld.escribir_celda_excel(excel_a_modificar, hoja_calculo, i+2, 8, "Pendiente")
 
                     print(f'HA FALLADO LA COMPRA DEL {modelo}') 
                     print("---------------------------------------------------------------------------------------------------------")
             except:
-                # Escribo el estado
-                ld.escribir_celda_excel(excel_a_modificar, hoja_calculo, i+2, 8, "Pendiente")
         
                 print(f'HA FALLADO LA COMPRA DEL {modelo}')
                 print("---------------------------------------------------------------------------------------------------------")

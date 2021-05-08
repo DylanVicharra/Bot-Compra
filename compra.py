@@ -203,7 +203,8 @@ def obtener_orden(driver):
     
     nr_orden = driver.esperar_elemento(tiempo_espera, ew.text_nr_orden)
     link_orden = nr_orden.get_attribute('href')
-    nombre = nr_orden.text
+    nombre = nr_orden.get_attribute('data-evar1')
+    nombre = nombre.replace("OrderDetails", "").strip()
     driver.set_estado('Completado')
     driver.set_orden([str(link_orden), str(nombre)])
     print('LA COMPRA HA SIDO EXITOSA')

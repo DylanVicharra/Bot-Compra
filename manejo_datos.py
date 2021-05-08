@@ -1,4 +1,5 @@
 from os import path
+from datetime import date
 import openpyxl as op
 
 iphone_disponibles = {'IPHONE 11 128GB BLACK':['iphone-11','6.1-inch-display','128gb','black'], 'IPHONE 11 128GB GREEN':['iphone-11','6.1-inch-display','128gb','green'], 'IPHONE 11 128GB PURPLE':['iphone-11','6.1-inch-display','128gb','purple'], 'IPHONE 11 128GB RED':['iphone-11','6.1-inch-display','128gb','red'], 'IPHONE 11 128GB WHITE':['iphone-11','6.1-inch-display','128gb','white'], 'IPHONE 11 128GB YELLOW':['iphone-11','6.1-inch-display','128gb','yellow'],
@@ -35,6 +36,15 @@ def verificacion_modelo(producto):
         if producto == iphone:
             return iphone_disponibles[iphone]
     return None 
+
+def crear_archivo(nombre_archivo):
+    if path.exists(f'{date.today()}-{nombre_archivo}'):
+        archivo = op.load_workbook(f'{date.today()}-{nombre_archivo}')
+        return archivo
+    else: 
+        archivo = op.Workbook()
+        archivo.create_sheet("Ordenes")
+        return archivo
 
 def limpieza_datos(archivo_excel):
     # Se elimina las filas vacias que no contengan la informacion requerida, ademas de los iphone que ya aparecen como finalizado
