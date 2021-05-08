@@ -42,7 +42,7 @@ text_password = '/html/body/div[3]/apple-auth/div/div[1]/div/sign-in/div/div[1]/
 # boton ventana checkout
 btn_delivery = '//*[@id="checkout-container"]/div/div[6]/div[1]/div[2]/div/div/div[1]/div/div/div/fieldset/div[1]/div[1]/label'
 btn_pick_up = '//*[@id="checkout-container"]/div/div[6]/div[1]/div[2]/div/div/div[1]/div/div/div/fieldset/div[1]/div[2]/label'
-btn_continue_shipping = '//*[@id="rs-checkout-continue-button-bottom"]'
+btn_continue_shipping = '//*[@id="rs-checkout-continue-button-bottom"][@type="button"]'
 
 # texto de informacion de contacto /
 contenedor_shipping_adresscontact = '/html/body/div[2]/div[4]/div/div[6]/div[1]/div[2]/div/div/div/div[1]/fieldset'

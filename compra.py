@@ -163,11 +163,13 @@ def terminar_compra(driver):
     driver.set_etapa('SELECCION DE ENVIO Y TARJETA')
     
     #  Pagina Fulfillment
-    accion = ActionChains(driver.get_driver())
     btn_delivery = driver.esperar_elemento(tiempo_espera, ew.btn_delivery)
+    btn_continue_shipping = driver.esperar_elemento(tiempo_espera, ew.btn_continue_shipping)
+
+    accion = ActionChains(driver.get_driver())
     accion.move_to_element(btn_delivery)
     accion.click(btn_delivery)
-    btn_continue_shipping = driver.esperar_elemento(tiempo_espera, ew.btn_continue_shipping)
+    accion.pause(2)
     accion.move_to_element(btn_continue_shipping)
     accion.click(btn_continue_shipping)
     accion.pause(5)
