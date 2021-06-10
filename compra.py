@@ -147,7 +147,7 @@ def checkout(driver, cantidad, operador):
             seleccion_cant.select_by_value(str(cantidad))
             sleep(3)
         else:
-            seleccion_cant.select_by_value('10+')
+            seleccion_cant.select_by_value('10')
             sleep(3)
             driver_aux.find_element(By.XPATH,"//input[@type='tel'][@value='10']")
             texto_cant = driver_aux.find_element_by_xpath("//input[@type='tel'][@value='10']")
