@@ -46,7 +46,12 @@ def main():
     tiempo_espera = 8
     # Instalacion del ejecutable (aplicar un try y explicar en que casos hay que borrar el cache)
     print("Instalacion del Webdriver de Chrome")
-    ejecutableChrome = bot.instalar_webdriver()
+    
+    try:
+        ejecutableChrome = bot.instalar_webdriver()
+    except:
+        print("Archivo posiblemente dañado. Borrar la carpeta .wdm")
+
     print(f'Ruta: {ejecutableChrome}')
     # Lectura del archivo
     print(f"Lectura del archivo {archivo_excel}.xlsx")

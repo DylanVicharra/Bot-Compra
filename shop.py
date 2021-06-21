@@ -92,8 +92,6 @@ def traspaso_operador(driver, producto, tiempo_espera):
 
         driver.find_element_by_xpath(ew.text_cod_postal_operador).send_keys("33178")
 
-        # hace click tan rapido que no deja leer lo que dice en los textbox por eso el sleep 
-        # Para mi mala suerte no hay span o un lugar donde guarde un texto para asi poder utilizarlo como condicion
         sleep(2)
      
         scroll_to(driver, driver.find_element_by_xpath(ew.btn_siguiente_operador))
@@ -101,8 +99,6 @@ def traspaso_operador(driver, producto, tiempo_espera):
 
         print("Se ha completado los datos del operador")
 
-        # Ver si poner un implicity wait, asi espero que cargue la pagina, ver si hay algun 
-        # no funciona por el momento el sleep (agregar mas tiempor en el siguiente wait, asi para no colocar el sleep)
         sleep(6)
 
         nueva_pagina = False 
@@ -114,8 +110,6 @@ def traspaso_operador(driver, producto, tiempo_espera):
                 nueva_pagina = True
 
                 print("Se ha verificado satisfactoriamente el operador")
-        
-                WebDriverWait(driver, (tiempo_espera + 2)).until(EC.visibility_of_element_located((By.XPATH, '//button[@class="button button-block button-super"]')))
 
             except (NoSuchWindowException, WebDriverException):
                 nueva_pagina = True
@@ -125,6 +119,9 @@ def traspaso_operador(driver, producto, tiempo_espera):
                 if intentos > 3:
                     nueva_pagina = True
                     raise Exception ("No cargo el elemento")
+
+    # Espera a que la pagina de la descripcion se cargue el boton mas importante
+    WebDriverWait(driver, (tiempo_espera + 2)).until(EC.visibility_of_element_located((By.XPATH, '//button[@class="button button-block button-super"]')))
 
 
 def bolsa(driver, producto, tiempo_espera):
