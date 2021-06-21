@@ -4,10 +4,6 @@ import manejo_datos as md
 import webdriver as bot
 import shop as shop
 
-# Caso molesto parte 666, no puedo limpiar el texbox directamente
-# NO DARME CUENTA QUE EL IMPLICYTY WAIT HACE UNA ESPERA A QUE SE CARGUE LA PAGINA, Y NO UN ESPERA EN SI, O TAMBIEN UN DRIVER WAIT SIRVE)UTILIZAR UN SLEEP
-# Revisar otra vez con mas datos, en que momentos aparecen otros errores y como llevarlos
-
 
 def secuencia_compra(ejecutableChrome, producto, tiempo_espera):
 
@@ -66,11 +62,6 @@ def main():
     # archivo que tiene que modificarse 
     archivo_ordenes = md.crear_archivo(archivo_excel) 
 
-    # esto se podria colocar en una funcion distinta ver mas adelanta (o directamente ni siquiera colocarla)
-    #print('\n' + " - Lista de compra:  " + '\n')
-    #for elemento_lista in lista_compra:
-    #    print(f'* {lista_compra[elemento_lista]["objeto"].cantidad} - {lista_compra[elemento_lista]["nombre"]}')
-
     # Se comienza la compra de la lista.
     for producto in lista_compra:
         
@@ -104,6 +95,8 @@ def main():
                 print(f'Ha fallado la compra del {lista_compra[producto]["nombre"]}')
 
     archivo_ordenes.save(f'{md.date.today()}-{archivo_excel}.xlsx')
+
+    print("Finalizando BOT APPLE...")
 
 if __name__ == "__main__":
     main()

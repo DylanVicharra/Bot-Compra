@@ -8,8 +8,6 @@ from selenium.webdriver.common.by import By
 import elementos_web as ew
 
 
-# Para tener en cuenta la funcion raise es crear una excepcion, usarlo cuando no se cumple algunas cosas
-
 
 def scroll_to(driver, elemento):
     driver.execute_script("arguments[0].scrollIntoView({block:'center'});", elemento)
@@ -103,16 +101,21 @@ def traspaso_operador(driver, producto, tiempo_espera):
 
         print("Se ha completado los datos del operador")
 
+        # Ver si poner un implicity wait, asi espero que cargue la pagina, ver si hay algun 
+        # no funciona por el momento el sleep (agregar mas tiempor en el siguiente wait, asi para no colocar el sleep)
+        sleep(6)
+
         nueva_pagina = False 
         while not nueva_pagina:
             try:
                 WebDriverWait(driver, tiempo_espera).until(EC.element_to_be_clickable((By.XPATH, ew.btn_add_bag_2)))
+                scroll_to(driver, driver.find_element_by_xpath(ew.btn_add_bag_2))
                 driver.execute_script("arguments[0].click();", driver.find_element_by_xpath(ew.btn_add_bag_2))
                 nueva_pagina = True
-                # porque aunque haga click al parecer no deja a la pagina almacenar bien el producto
-                # habra alguna condicion qu espere a que el dom envie la informacion? lo dudo, igualmente buscar
-                sleep(3)
+
                 print("Se ha verificado satisfactoriamente el operador")
+        
+                WebDriverWait(driver, (tiempo_espera + 2)).until(EC.visibility_of_element_located((By.XPATH, '//button[@class="button button-block button-super"]')))
 
             except (NoSuchWindowException, WebDriverException):
                 nueva_pagina = True
@@ -146,6 +149,9 @@ def bolsa(driver, producto, tiempo_espera):
     else:
         tiempo_espera += 2
 
+    # Espera a que los elementos seleccionados se vuelvan a cargar con la informacion cambiada
+    sleep(2)
+
     WebDriverWait(driver, tiempo_espera).until(EC.element_to_be_clickable((By.XPATH, ew.btn_checkout)))
     driver.execute_script("arguments[0].click();", driver.find_element_by_xpath(ew.btn_checkout))
 
@@ -160,8 +166,7 @@ def login_appleId(driver, producto, tiempo_espera):
         try:
             login_ready = EC.frame_to_be_available_and_switch_to_it((By.XPATH, ew.contenedor_apple_id))
             WebDriverWait(driver, tiempo_espera).until(login_ready)
-            procceded_login = True
-        
+            procceded_login = True  
         except (NoSuchWindowException, WebDriverException):
             procceded_login = True
             raise Exception("Se cerro la ventana del navegador")                  
@@ -213,7 +218,9 @@ def stores_preferencias(driver, producto):
     # Buscar todas las opciones 
     lista_stores_preferencias = {1:{"nombre":"APPLE LINCOLN","codigo":"R115"}, 
                                  2:{"nombre":"APPLE BRICKELL CITY CENTRE","codigo":"R623"}, 
-                                 3:{"nombre":"APPLE DADELAND","codigo":"R312",}}
+                                 3:{"nombre":"APPLE DADELAND","codigo":"R312",},
+                                 4:{"nombre":"APPLE THE FALLS","codigo":"R012"},
+                                 5:{"nombre":"APPLE AVENTURA"},"codigo":"R087",}
 
     for apple_store in lista_stores_preferencias:
         tienda_pos_disponible = driver.find_element_by_xpath(ew.btn_lugar_definido.format(lista_stores_preferencias[apple_store]["codigo"], lista_stores_preferencias[apple_store]["codigo"]))
@@ -260,6 +267,9 @@ def order_options(driver, producto, tiempo_espera): # Pensar un mejor nombre
 
         selectHora.select_by_index(2)
 
+        # Para ver algo
+        sleep(6)
+
 
     scroll_to(driver, driver.find_element_by_xpath(ew.btn_continue_shipping))
     driver.execute_script("arguments[0].click();", driver.find_element_by_xpath(ew.btn_continue_shipping))
@@ -285,7 +295,7 @@ def obtener_orden(driver, producto, tiempo_espera):
     scroll_to(driver, driver.find_element_by_xpath(ew.btn_place_your_order))
     driver.execute_script("arguments[0].click();", driver.find_element_by_xpath(ew.btn_place_your_order))
     
-    driver.implicitly_wait(10)
+    driver.implicitly_wait(8)
     
     # Tira el error antes de encontrarlo, pensar otra manera
     try:
@@ -300,13 +310,14 @@ def obtener_orden(driver, producto, tiempo_espera):
         
         print("La compra se realizo correctamente")
 
-        driver.implicitly_wait(5)
+        # Para ver algo de la informacion de compra: puede ser eliminado a futuro
+        sleep(4)
         return True
     except:
         pass 
 
     try:
-        WebDriverWait(driver, tiempo_espera).until(EC.visibility_of_element_located((By.XPATH, '//div[@role="alert"]')))
+        WebDriverWait(driver, 4).until(EC.visibility_of_element_located((By.XPATH, '//div[@role="alert"]')))
         print("Hubo un error con la tarjeta seleccionada, utilizar otro usuario para esta compra")
     except:
         raise Exception ("No se puede retirar en tienda")

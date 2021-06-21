@@ -7,7 +7,7 @@ def opciones_chrome():
     opciones = Options()
     opciones.add_argument("--disable-gpu")
     opciones.add_argument("--log-level=3")
-    opciones.add_argument("--no-sandbox")
+    opciones.add_argument("--disable-popup-blocking")
     opciones.add_experimental_option("excludeSwitches", ['enable-automation','enable-logging'])
     return opciones
 
