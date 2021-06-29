@@ -1,5 +1,5 @@
 import os
-from selenium.common.exceptions import TimeoutException, NoSuchWindowException
+from selenium.common.exceptions import TimeoutException, NoSuchWindowException, SessionNotCreatedException
 import manejo_datos as md
 import webdriver as bot
 import shop as shop
@@ -7,7 +7,12 @@ import shop as shop
 
 def secuencia_compra(ejecutableChrome, producto, tiempo_espera):
 
-    driver = bot.crear_webdriver(ejecutableChrome)
+    try:
+        driver = bot.crear_webdriver(ejecutableChrome)
+    except SessionNotCreatedException:
+        print("La version de Chrome no corresponde con el webdriver que se utiliza." + "\n" +
+              "Actualice su navegador Chrome a la ultima version disponible.")
+        exit(1)
     
     funciones_compra = {shop.seleccion_producto:[driver, producto, tiempo_espera], shop.traspaso_operador:[driver, producto, tiempo_espera], shop.bolsa:[driver, producto, tiempo_espera], shop.login_appleId:[driver, producto, tiempo_espera], shop.order_options:[driver, producto, tiempo_espera], shop.info_envio_o_retiro:[driver, producto, tiempo_espera], shop.metodo_pago:[driver, tiempo_espera], shop.obtener_orden:[driver, producto, tiempo_espera]}
     
@@ -19,7 +24,7 @@ def secuencia_compra(ejecutableChrome, producto, tiempo_espera):
             producto.estado = "Incompleto"
             break    
         except TimeoutException:
-            print(f'Ocurrio un errror en: {funcion.__name__}')
+            print(f'Ocurrio un errror en: {funcion.__name__.replace("_", " ")}')
             print('Se demoro en encontrar el boton o texto.')    
             producto.estado = "Incompleto"    
             break
@@ -50,7 +55,8 @@ def main():
     try:
         ejecutableChrome = bot.instalar_webdriver()
     except:
-        print("Archivo posiblemente dañado. Borrar la carpeta .wdm")
+        print("Archivo posiblemente dañado. Borrar la carpeta .wdm y volver a iniciar el programa")
+        exit(1)
 
     print(f'Ruta: {ejecutableChrome}')
     # Lectura del archivo

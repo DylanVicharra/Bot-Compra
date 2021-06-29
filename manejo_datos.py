@@ -38,6 +38,18 @@ def verificacion_apple_store(apple_store):
             return lista_stores[store] 
     raise Exception("No se encontro la tienda seleccionada en el archivo stores.json") # de momento, ver para despues (colocar return False)
 
+# PRUEBA
+def listado_tiendas_opcionales(tiendas_excel, fila):
+    
+    tiendas_opcionales = {}
+
+    for i in range(1, 4):
+        # Con 'nan' se refiere que es vacio, lo cual no quiero agregar
+        if str(tiendas_excel.loc[fila,f'OPCIONAL {i}']) != "nan":
+            tiendas_opcionales[f'{i}'] = verificacion_apple_store(str(tiendas_excel.loc[fila, f'OPCIONAL {i}']))
+
+    return tiendas_opcionales
+    
 
 def crear_archivo(nombre_archivo):
     if path.exists(f'{date.today()}-{nombre_archivo}'):
@@ -89,7 +101,7 @@ def lectura_lista_compra(nombre_archivo, hoja):
         lista_compra = limpieza_datos(pd.read_excel(f'{nombre_archivo}.xlsx', sheet_name=hoja, engine='openpyxl'))
         print(f"Limpieza de datos del archivo excel '{nombre_archivo}' ... ")
     except:
-        print(f"No se encuentra la hoja propuesta en el archivo excel {nombre_archivo}" + 
+        print(f"No se encuentra la hoja propuesta en el archivo excel {nombre_archivo}." + 
             "\n" + "Revise el archivo excel, renombre la hoja o cambie el valor de la variable 'hoja_excel'" + 
             "\n" + "Finalizando..." + '\n')
         exit(1)
@@ -106,7 +118,8 @@ def lectura_lista_compra(nombre_archivo, hoja):
                                      int(lista_compra.loc[i,"CANTIDAD"]),
                                      str(lista_compra.loc[i,"USER"]),
                                      str(lista_compra.loc[i,"PASSWORD"]),
-                                     verificacion_apple_store(str(lista_compra.loc[i,"ORDER OPTIONS"]))  
+                                     verificacion_apple_store(str(lista_compra.loc[i,"STORE"])),
+                                     listado_tiendas_opcionales(lista_compra, i)  
                                     )
 
             modelos_a_comprar[i] = dic
@@ -124,3 +137,11 @@ def lectura_lista_compra(nombre_archivo, hoja):
 
 
 
+'''# Prueba
+nombre_archivo = "BOT"
+hoja = "Compras"
+
+cosas_compra = lectura_lista_compra(nombre_archivo, hoja)
+
+for producto in cosas_compra:
+    print(cosas_compra[producto]["objeto"].lista_tiendas_opcionales)'''

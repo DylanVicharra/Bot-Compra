@@ -62,7 +62,6 @@ def seleccion_producto(driver, producto, tiempo_espera):
     print("Se selecciono el producto satisfactoriamente")
 
     if producto.modelo != 'iphone-12' and producto.operador != 'unlocked':
-        #print(f'{producto.modelo} - {producto.operador}')
         WebDriverWait(driver, tiempo_espera).until(EC.element_to_be_clickable((By.XPATH, ew.btn_activation_carrier_now)))
         driver.execute_script("arguments[0].click();", driver.find_element_by_xpath(ew.btn_activation_carrier_now))
 
@@ -213,11 +212,7 @@ def info_envio_o_retiro(driver, producto, tiempo_espera): # pensar otro nombre p
 
 def stores_preferencias(driver, producto):
     # Buscar todas las opciones 
-    lista_stores_preferencias = {1:{"nombre":"APPLE LINCOLN","codigo":"R115"}, 
-                                 2:{"nombre":"APPLE BRICKELL CITY CENTRE","codigo":"R623"}, 
-                                 3:{"nombre":"APPLE DADELAND","codigo":"R312",},
-                                 4:{"nombre":"APPLE THE FALLS","codigo":"R012"},
-                                 5:{"nombre":"APPLE AVENTURA"},"codigo":"R087",}
+    lista_stores_preferencias = producto.lista_tiendas_opcionales
 
     for apple_store in lista_stores_preferencias:
         tienda_pos_disponible = driver.find_element_by_xpath(ew.btn_lugar_definido.format(lista_stores_preferencias[apple_store]["codigo"], lista_stores_preferencias[apple_store]["codigo"]))
@@ -230,7 +225,7 @@ def stores_preferencias(driver, producto):
     raise Exception("No se encontro ninguna tienda disponible dentro de las preferencias. Se termina la compra")
 
 
-def order_options(driver, producto, tiempo_espera): # Pensar un mejor nombre
+def order_options(driver, producto, tiempo_espera):
     print("Se selecciona el metodo de envio o retiro del producto")
     
     if (producto.order_option["nombre"] == "DELIVERY"):
@@ -256,7 +251,6 @@ def order_options(driver, producto, tiempo_espera): # Pensar un mejor nombre
         else: 
             driver.execute_script("arguments[0].click();", boton)
         #except:
-            #pass
 
         WebDriverWait(driver, tiempo_espera).until(EC.visibility_of_element_located((By.XPATH, ew.select_hora)))
         desplegableHora = driver.find_element_by_xpath(ew.select_hora)
@@ -272,7 +266,7 @@ def order_options(driver, producto, tiempo_espera): # Pensar un mejor nombre
     driver.execute_script("arguments[0].click();", driver.find_element_by_xpath(ew.btn_continue_shipping))
 
 
-def metodo_pago(driver, tiempo_espera): #Pensar un nombre mejor de metodo 
+def metodo_pago(driver, tiempo_espera):  
     
     print("Se selecciona el metodo de pago")
 
@@ -287,14 +281,12 @@ def metodo_pago(driver, tiempo_espera): #Pensar un nombre mejor de metodo
 
 def obtener_orden(driver, producto, tiempo_espera):
     
-    # Revisar que me esta volviendo locooooooo :(
     WebDriverWait(driver, tiempo_espera).until(EC.element_to_be_clickable((By.XPATH, ew.btn_place_your_order)))
     scroll_to(driver, driver.find_element_by_xpath(ew.btn_place_your_order))
     driver.execute_script("arguments[0].click();", driver.find_element_by_xpath(ew.btn_place_your_order))
     
     driver.implicitly_wait(8)
     
-    # Tira el error antes de encontrarlo, pensar otra manera
     try:
         orden = driver.find_element_by_xpath(ew.text_nr_orden)
 
@@ -317,7 +309,7 @@ def obtener_orden(driver, producto, tiempo_espera):
         WebDriverWait(driver, 4).until(EC.visibility_of_element_located((By.XPATH, '//div[@role="alert"]')))
         print("Hubo un error con la tarjeta seleccionada, utilizar otro usuario para esta compra")
     except:
-        raise Exception ("No se puede retirar en tienda")
+        raise Exception ("El producto no se puede retirar en tienda, solo delivery")
 
     
     
