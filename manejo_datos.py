@@ -52,8 +52,8 @@ def listado_tiendas_opcionales(tiendas_excel, fila):
     
 
 def crear_archivo(nombre_archivo):
-    if path.exists(f'{date.today()}-{nombre_archivo}'):
-        archivo = op.load_workbook(f'{date.today()}-{nombre_archivo}')
+    if path.exists(f'{date.today()}-{nombre_archivo}.xlsx'):
+        archivo = op.load_workbook(f'{date.today()}-{nombre_archivo}.xlsx')
         return archivo
     else: 
         # Se crea un nuevo archivo 
