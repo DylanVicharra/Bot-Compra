@@ -136,12 +136,3 @@ def lectura_lista_compra(nombre_archivo, hoja):
     return modelos_a_comprar
 
 
-
-'''# Prueba
-nombre_archivo = "BOT"
-hoja = "Compras"
-
-cosas_compra = lectura_lista_compra(nombre_archivo, hoja)
-
-for producto in cosas_compra:
-    print(cosas_compra[producto]["objeto"].lista_tiendas_opcionales)'''
