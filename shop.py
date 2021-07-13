@@ -284,7 +284,7 @@ def obtener_orden(driver, producto, tiempo_espera):
     WebDriverWait(driver, tiempo_espera).until(EC.element_to_be_clickable((By.XPATH, ew.btn_place_your_order)))
     scroll_to(driver, driver.find_element_by_xpath(ew.btn_place_your_order))
     driver.execute_script("arguments[0].click();", driver.find_element_by_xpath(ew.btn_place_your_order))
-    
+
     driver.implicitly_wait(8)
     
     try:

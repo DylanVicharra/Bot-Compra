@@ -93,7 +93,6 @@ def escribir_fila_excel(archivo_a_modificar, hoja, orden, nombre_producto, store
     #Escribo en la columna tres que es el nombre de la tienda que se va retirar, en el caso que sea de retiro 
     hoja_a_modificar.cell(row = ultima_fila+1, column = 3).value = store
 
-# prueba de algo
 
 def lectura_lista_compra(nombre_archivo, hoja):
 
@@ -134,5 +133,4 @@ def lectura_lista_compra(nombre_archivo, hoja):
             print(error)
 
     return modelos_a_comprar
-
 

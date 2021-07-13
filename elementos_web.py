@@ -9,11 +9,11 @@ url_compra_realizada = "https://www.apple.com/shop/checkout/thankyou"
 # Contenedores
 contenedor_botones_producto = '//div[@id="root"]' #cambio 
 # Botones
-btn_trade = '//input[@id="noTradeIn"][@value="noTradeIn"][@type="radio"]' # cambio 
+btn_trade = '//input[@id="noTradeIn"][@value="noTradeIn"][@type="radio"]'  
 # Seleccion producto con operardor
-btn_full_price = '//input[@type="radio"][@value="fullPrice"][@name="purchase_option_group"]' # cambio
+btn_full_price = '//input[@type="radio"][@value="fullPrice"][@name="purchase_option_group"]' 
 # Seleccion producto sin operador  
-btn_full_price_unlocked = '//input[@value="fullPrice"][@type="radio"][@name="purchase_option"]' # cambio
+btn_full_price_unlocked = '//input[@value="fullPrice"][@type="radio"][@name="purchase_option"]' 
 btn_continue_product = '//button[@type="submit"][@class="button button-block"]' #con este modelo de boton se puede usar en los dos caso
 
 # aparece cuando no es un iphone 12, ventana de activacion
@@ -37,7 +37,7 @@ btn_add_bag_2 = '//a[@id="preauth-button-next"][@class="button as-preauth-button
 # botones en pagina bag
 btn_checkout = '//button[@id="shoppingCart.actions.navCheckout"][@class="button button-block"][@data-autom="checkout"]'
 # Lista desplegable 
-select_cantidad = '//select[@class="rs-quantity-dropdown form-dropdown-select"]' # cambio
+select_cantidad = '//select[@class="rs-quantity-dropdown form-dropdown-select"]' 
 # texto si es una cantidad mayor a 10
 text_cantidad = '//input[@type="tel"][@value="10"]'
 
@@ -62,13 +62,12 @@ label_date = '//input[@id="bartPickupDateSelector{}"]'
 # Seleccion de hora 
 select_hora = '//select[@aria-labelledby="timeWindows_label"][@class=" form-dropdown-select"]'
 # Delivery 
-# Pensar que otros botones son necesarios
 # Boton
 btn_continue_shipping = '//button[@id="rs-checkout-continue-button-bottom"][@type="button"][@class=" form-button "]' # Es el mismo boton, no cambia al igual que lo hace en producto
 
 
 ''' Pagina de seleccion de la persona que retira el producto '''
-btn_persona_retiro = '//label[@for="pickupOptionButtonGroup{}"][@class="as-buttongroup-button"]' # 0 para el mismo, 1 para otra (Se necesita otros datos)
+btn_persona_retiro = '//label[@for="pickupOptionButtonGroup{}"][@class="as-buttongroup-button"]' # 0 para el mismo, 1 para otra 
 # Textos
 text_firstName = '//input[@type="text"][@name="firstName"]'
 text_lastName = '//input[@type="text"][@name="lastName"]'
