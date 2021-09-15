@@ -26,6 +26,7 @@ def pagina_carrito(driver):
     except (TimeoutException, WebDriverException):
         return False
 
+
 def seleccion_producto(driver, producto, tiempo_espera):
     
     pagina_producto(driver, producto.modelo, producto.display, producto.memoria, producto.color, producto.operador)
@@ -61,9 +62,15 @@ def seleccion_producto(driver, producto, tiempo_espera):
 
     print("Se selecciono el producto satisfactoriamente")
 
-    if producto.modelo != 'iphone-12' and producto.operador != 'unlocked':
+    try: 
         WebDriverWait(driver, tiempo_espera).until(EC.element_to_be_clickable((By.XPATH, ew.btn_activation_carrier_now)))
         driver.execute_script("arguments[0].click();", driver.find_element_by_xpath(ew.btn_activation_carrier_now))
+    except:
+        pass        
+
+    '''if producto.modelo != 'iphone-12' and producto.operador != 'unlocked':
+        WebDriverWait(driver, tiempo_espera).until(EC.element_to_be_clickable((By.XPATH, ew.btn_activation_carrier_now)))
+        driver.execute_script("arguments[0].click();", driver.find_element_by_xpath(ew.btn_activation_carrier_now))'''
 
 
 def traspaso_operador(driver, producto, tiempo_espera):
@@ -183,7 +190,7 @@ def login_appleId(driver, producto, tiempo_espera):
     print("Apple ID ingresado correctamente")
 
 
-def info_envio_o_retiro(driver, producto, tiempo_espera): # pensar otro nombre para el metodo 
+def info_envio_o_retiro(driver, producto, tiempo_espera): 
 
     print("Se rellena la informacion de contacto")
 
@@ -240,7 +247,7 @@ def order_options(driver, producto, tiempo_espera):
     if selectOption == 1:
         WebDriverWait(driver, tiempo_espera).until(EC.visibility_of_element_located((By.XPATH, '//button[@data-autom="show-more-stores-button"]')))
         driver.execute_script("arguments[0].click();", driver.find_element_by_xpath('//button[@data-autom="show-more-stores-button"]'))
-        #try:
+        
         WebDriverWait(driver, tiempo_espera).until(EC.visibility_of_element_located((By.XPATH, ew.btn_lugar_definido_espera.format(producto.order_option["codigo"]))))
 
         boton = driver.find_element_by_xpath(ew.btn_lugar_definido.format(producto.order_option["codigo"], producto.order_option["codigo"]))    
@@ -250,7 +257,6 @@ def order_options(driver, producto, tiempo_espera):
             stores_preferencias(driver, producto)
         else: 
             driver.execute_script("arguments[0].click();", boton)
-        #except:
 
         WebDriverWait(driver, tiempo_espera).until(EC.visibility_of_element_located((By.XPATH, ew.select_hora)))
         desplegableHora = driver.find_element_by_xpath(ew.select_hora)
@@ -300,8 +306,8 @@ def obtener_orden(driver, producto, tiempo_espera):
         print("La compra se realizo correctamente")
 
         # Para ver algo de la informacion de compra: puede ser eliminado a futuro
-        sleep(4)
-        return True
+        sleep(2)
+        return True  
     except:
         pass 
 

@@ -7,14 +7,14 @@ url_compra_realizada = "https://www.apple.com/shop/checkout/thankyou"
 
 ''' Pagina del producto '''
 # Contenedores
-contenedor_botones_producto = '//div[@id="root"]' #cambio 
+contenedor_botones_producto = '//div[@id="root"]' 
 # Botones
 btn_trade = '//input[@id="noTradeIn"][@value="noTradeIn"][@type="radio"]'  
 # Seleccion producto con operardor
 btn_full_price = '//input[@type="radio"][@value="fullPrice"][@name="purchase_option_group"]' 
 # Seleccion producto sin operador  
 btn_full_price_unlocked = '//input[@value="fullPrice"][@type="radio"][@name="purchase_option"]' 
-btn_continue_product = '//button[@type="submit"][@class="button button-block"]' #con este modelo de boton se puede usar en los dos caso
+btn_continue_product = '//button[@type="submit"][@class="button button-block"]' 
 
 # aparece cuando no es un iphone 12, ventana de activacion
 btn_activation_carrier_now = '//button[@type="submit"][@class="rf-carrier-fork-option-button form-selector-label"][@name="proceed"]'
@@ -63,30 +63,30 @@ label_date = '//input[@id="bartPickupDateSelector{}"]'
 select_hora = '//select[@aria-labelledby="timeWindows_label"][@class=" form-dropdown-select"]'
 # Delivery 
 # Boton
-btn_continue_shipping = '//button[@id="rs-checkout-continue-button-bottom"][@type="button"][@class=" form-button "]' # Es el mismo boton, no cambia al igual que lo hace en producto
+btn_continue_shipping = '//button[@id="rs-checkout-continue-button-bottom"][@type="button"][@class=" form-button "]' 
 
 
 ''' Pagina de seleccion de la persona que retira el producto '''
-btn_persona_retiro = '//label[@for="pickupOptionButtonGroup{}"][@class="as-buttongroup-button"]' # 0 para el mismo, 1 para otra 
+btn_persona_retiro = '//label[@for="pickupOptionButtonGroup{}"][@class="as-buttongroup-button"]' 
 # Textos
 text_firstName = '//input[@type="text"][@name="firstName"]'
 text_lastName = '//input[@type="text"][@name="lastName"]'
 text_email = '//input[@type="email"][@name="emailAddress"]'
 text_phoneNumber = '//input[@type="tel"][@name="fullDaytimePhone"]'
 # Boton 
-btn_continue_payment = '//button[@id="addressVerification"][@type="button"][@class=" form-button "]' # los botones no son lo mismo, aca cuando va a pick up cambia, utiliza el mismo boton que btn_continue_shipping
+btn_continue_payment = '//button[@id="addressVerification"][@type="button"][@class=" form-button "]'
 
 
 ''' Pagina de forma de pago ''' 
 # botones en la pagina billing 
 contenedor_billling = '//fieldset[@class="rs-payment-section"]'
-btn_credit_card = '//input[@id="checkout.billing.billingOptions.options.1"][@name="checkout.billing.billingOptions.selectBillingOption"]' # Revisar en el otro codigo como esta
-btn_continue_to_review = '//button[@id="rs-checkout-continue-button-bottom"][@type="button"][@class=" form-button "]' # Mismo boton que btn_continue_shipping
+btn_credit_card = '//input[@id="checkout.billing.billingOptions.options.1"][@name="checkout.billing.billingOptions.selectBillingOption"]' 
+btn_continue_to_review = '//button[@id="rs-checkout-continue-button-bottom"][@type="button"][@class=" form-button "]' 
 
 
 ''' Pagina confirmacion de compra ''' 
 # boton para concretar la compra
-btn_place_your_order = '//button[@id="rs-checkout-continue-button-bottom"][@type="button"][@class=" form-button "]' # Mismo boton que btn_continue_shipping (nota 2: cambia en aria-described)
+btn_place_your_order = '//button[@id="rs-checkout-continue-button-bottom"][@type="button"][@class=" form-button "]'
 
 
 
