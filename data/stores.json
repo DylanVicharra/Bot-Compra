@@ -1,0 +1,55 @@
+{
+    "0":{
+        "nombre":"DELIVERY",
+        "codigo":"None"
+    },
+    "1":{
+        "nombre":"APPLE BRICKELL CITY CENTRE",
+        "codigo":"R623"
+    }, 
+    "2":{
+        "nombre":"APPLE DADELAND",
+        "codigo":"R312"
+    }, 
+    "3":{
+        "nombre":"APPLE THE FALLS",
+        "codigo":"R012"
+    },
+    "4":{
+        "nombre":"APPLE AVENTURA",
+        "codigo":"R087"
+    },
+    "5":{
+        "nombre":"APPLE GALERIA",
+        "codigo":"R214"
+    }, 
+    "6":{
+        "nombre":"APPLE BOCA RATON",
+        "codigo":"R074"
+    },
+    "7":{
+        "nombre":"APPLE WELLINGTON GREEN",
+        "codigo":"R024"
+    }, 
+    "8":{
+        "nombre":"APPLE LINCOLN",
+        "codigo":"R115"
+    },
+    "9":{
+        "nombre":"APPLE WATERSIDE SHOPS",
+        "codigo":"R169"
+    },
+    "10":{
+        "nombre":"APPLE THE GARDEN MALL",
+        "codigo":"R127"
+    }, 
+    "11":{
+        "nombre":"APPLE COCONUT POINT",
+        "codigo":"R185"
+    },
+    "12":{
+        "nombre":"APPLE UNIVERSITY TOWN CENTER",
+        "codigo":"R615"
+    }    
+
+}

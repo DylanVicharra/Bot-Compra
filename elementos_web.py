@@ -1,63 +1,101 @@
 # Pagina Apple 
-
 url_apple = 'https://www.apple.com'
 url_producto = f'{url_apple}/shop/buy-iphone'
 url_bag = f'{url_apple}/shop/bag'
-url_billing = str('https://secure2.store.apple.com/shop/checkout?_s=Billing')
+url_compra_realizada = "https://www.apple.com/shop/checkout/thankyou"
 
-# botones y textos para seleccion producto con operardor
 
-text_stock = '//*[@id="primary"]/summary-builder/div[2]/div[1]/materializer/div[1]/div/div/ul/li[1]/span'
-btn_trade = '//*[@id="tradeup-inline-heroselector"]/div/div/fieldset/div/div[1]/div/div' 
-btn_full_price = '/html/body/div[2]/div[7]/div[2]/div/store-provider/step1-flagship/div/div[3]/materializer[2]/purchase-options/fieldset/materializer[1]/div/div[1]/div/div/label'
-btn_continue_product = '/html/body/div[2]/div[7]/div[2]/div/store-provider/step1-flagship/div/div[3]/summary-builder/div[2]/div[1]/div/div[1]/div[2]/div/div/form/div/span/button'
+''' Pagina del producto '''
+# Contenedores
+contenedor_botones_producto = '//div[@id="root"]' 
+# Botones
+btn_trade = '//input[@id="noTradeIn"][@value="noTradeIn"][@type="radio"]'  
+# Seleccion producto con operardor
+btn_full_price = '//input[@type="radio"][@value="fullPrice"][@name="purchase_option_group"]' 
+# Seleccion producto sin operador  
+btn_full_price_unlocked = '//input[@value="fullPrice"][@type="radio"][@name="purchase_option"]' 
+btn_continue_product = '//button[@type="submit"][@class="button button-block"]' 
 
-# botones y textos para seleccion producto sin operador  
-btn_full_price_unlocked = '//*[@id="primary"]/materializer[2]/purchase-options/fieldset/materializer[2]/div/div[2]'
-btn_add_bag = '//*[@id="primary"]/summary-builder/div[2]/div[1]/div/div[1]/div[2]/div/div/form/div/span/button'
+# aparece cuando no es un iphone 12, ventana de activacion
+btn_activation_carrier_now = '//button[@type="submit"][@class="rf-carrier-fork-option-button form-selector-label"][@name="proceed"]'
 
-# aparece cuando no es un iphone 12, ventana que activacion
-btn_activation_carrier_now = '/html/body/div[2]/div[7]/div/div/div[2]/div[1]/form/div[1]/span/button'
 
+
+''' Pagina de validadcion del operador  '''
 # botones y textos para verificacion del operador
-text_nr_operador = '//*[@id="ctn"]'
-text_cod_postal = '//*[@id="postalcode"]'
-btn_siguiente = '//*[@id="preauth-button-next"]'
+contenedor_elementos_operador = '//div[@id="primary"][@role="main"]'
+text_nr_operador = '//input[@id="ctn"][@type="tel"][@name="ctn"][@placeholder="Wireless Number"]'
+text_cod_postal_operador = '//input[@id="postalcode"][@type="number"][@name="postalcode"][@placeholder="Billing Zip Code"]'
+btn_siguiente_operador = '//button[@id="preauth-button-next"][@type="submit"][@title="Continue"]'
 
 # botones en aviso del operador y descripcion del dispositivo
-btn_add_bag_2 = '/html/body/div[1]/div[6]/div/div[2]/a'
+btn_add_bag_2 = '//a[@id="preauth-button-next"][@class="button as-preauth-button-continue"]'
 
+
+
+''' Pagina del carrito '''
 # botones en pagina bag
-btn_checkout = '//*[@id="shoppingCart.actions.navCheckout"]'
+btn_checkout = '//button[@id="shoppingCart.actions.navCheckout"][@class="button button-block"][@data-autom="checkout"]'
+# Lista desplegable 
+select_cantidad = '//select[@class="rs-quantity-dropdown form-dropdown-select"]' 
+# texto si es una cantidad mayor a 10
+text_cantidad = '//input[@type="tel"][@value="10"]'
 
-# botones en ventana sign-in faster 
-btn_continue_as_guest = '//*[@id="signIn.guestLogin.guestLogin"]'
 
-# botones y textos de la ventana checkout
-btn_delivery = '//*[@id="checkout-container"]/div/div[6]/div[1]/div[2]/div/div/div[1]/div/div/div/fieldset/div[1]/div[1]/label'
-text_zip_code= '/html/body/div[2]/div[4]/div/div[6]/div[1]/div[2]/div/div/div[2]/div/div/div/div/div[1]/div/div[2]/div/div[1]/div[1]/div/input'
-btn_continue_shipping = '//*[@id="rs-checkout-continue-button-bottom"]'
 
-# botones y textos de informacion del delivery 
-text_name = '/html/body/div[2]/div[4]/div/div[6]/div[1]/div[2]/div/div/div/div[1]/div[3]/fieldset/div/div/div/div/div/div/div/div/div/div[1]/div/div/div/div/input'
-text_last_name = '/html/body/div[2]/div[4]/div/div[6]/div[1]/div[2]/div/div/div/div[1]/div[3]/fieldset/div/div/div/div/div/div/div/div/div/div[2]/div/div/div/div/input'
-text_street = '/html/body/div[2]/div[4]/div/div[6]/div[1]/div[2]/div/div/div/div[1]/div[3]/fieldset/div/div/div/div/div/div/div/div/div/div[3]/div/div/div/div/input'
-text_home = '/html/body/div[2]/div[4]/div/div[6]/div[1]/div[2]/div/div/div/div[1]/div[3]/fieldset/div/div/div/div/div/div/div/div/div/div[4]/div/div/div/div/input'
-text_zip_code_ship = '/html/body/div[2]/div[4]/div/div[6]/div[1]/div[2]/div/div/div/div[1]/div[3]/fieldset/div/div/div/div/div/div/div/div/div/div[5]/div/fieldset/div/div/div[1]/div/div/div/input'
+''' Pagina de logueo de Apple ID '''
+# textoBox de inicio sesion de AppleID:
+contenedor_apple_id = '//iframe[@id="aid-auth-widget-iFrame"][@name="aid-auth-widget"]'
+text_username = '//input[@id="account_name_text_field"][@type="text"][@can-field="accountName"]'
+text_password = '//input[@id="password_text_field"][@type="password"][@can-field="password"]'
 
-# texto de informacion de contacto /
-text_email = '/html/body/div[2]/div[4]/div/div[6]/div[1]/div[2]/div/div/div/div[1]/fieldset/div[1]/div/div/div/div/div[1]/div/div/div/input'
-text_phone_number = '/html/body/div[2]/div[4]/div/div[6]/div[1]/div[2]/div/div/div/div[1]/fieldset/div[2]/div/div/div/div/div[1]/div/div/div/div/input'
-btn_continue_payment = '//*[@id="addressVerification"]'
 
+''' Pagina de seleccion de entrega '''
+# fillmentOption 
+#btn_fillmentOption = '//label[@for="fulfillmentOptionButtonGroup{}"]' #Se puede hacer una unica linea de codigo solo diciendo si es delivery (0) o pick-up (1)
+btn_fillmentOption = '//input[@id="fulfillmentOptionButtonGroup{}"]'
+# Pick up
+# Seleccion lugar y dia
+btn_lugar_definido_espera = '//label[@class="form-selector-label "][@for="checkout.fulfillment.pickupTab.pickup.storeLocator-{}"]'
+btn_lugar_definido = '//input[@value="{}"][@id="checkout.fulfillment.pickupTab.pickup.storeLocator-{}"]'
+label_date = '//input[@id="bartPickupDateSelector{}"]'
+# Seleccion de hora 
+select_hora = '//select[@aria-labelledby="timeWindows_label"][@class=" form-dropdown-select"]'
+# Delivery 
+# Label Opciones
+btn_delivery_option = '//div[@class="form-selector rs-fulfillment-deliveryoption"]'
+# Horarios
+btn_setup_hora = '//div[@class="row large-12 small-12 form-selector-twocolumns"]'
+# Boton
+btn_continue_shipping = '//button[@id="rs-checkout-continue-button-bottom"][@type="button"][@class=" form-button "]' 
+
+
+''' Pagina de seleccion de la persona que retira el producto '''
+btn_persona_retiro = '//label[@for="pickupOptionButtonGroup{}"][@class="as-buttongroup-button"]' 
+# Textos
+text_firstName = '//input[@type="text"][@name="firstName"]'
+text_lastName = '//input[@type="text"][@name="lastName"]'
+text_email = '//input[@type="email"][@name="emailAddress"]'
+text_phoneNumber = '//input[@type="tel"][@name="fullDaytimePhone"]'
+# Boton 
+btn_continue_payment = '//button[@id="addressVerification"][@type="button"][@class=" form-button "]'
+
+
+''' Pagina de forma de pago ''' 
 # botones en la pagina billing 
-btn_credit_card = '//*[@id="checkout.billing.billingOptions.options.0-selector"]/label'
-text_card = '/html/body/div[2]/div[4]/div/div[7]/div[1]/div[2]/div/div/div[1]/div[1]/div[2]/fieldset/div/div/div[1]/div[1]/div[2]/div/div/div[2]/div/div[1]/div/div[1]/div/div/input'
-text_expired = '/html/body/div[2]/div[4]/div/div[7]/div[1]/div[2]/div/div/div[1]/div[1]/div[2]/fieldset/div/div/div[1]/div[1]/div[2]/div/div/div[2]/div/div[1]/div/div[2]/div[1]/div/div/input'
-text_cvv = '/html/body/div[2]/div[4]/div/div[7]/div[1]/div[2]/div/div/div[1]/div[1]/div[2]/fieldset/div/div/div[1]/div[1]/div[2]/div/div/div[2]/div/div[1]/div/div[2]/div[2]/div/div[1]/input'
-btn_continue_to_review = '/html/body/div[2]/div[4]/div/div[7]/div[1]/div[2]/div/div/div[1]/div[2]/div/div/div/div/button'
+contenedor_billling = '//fieldset[@class="rs-payment-section"]'
+btn_credit_card = '//input[@id="checkout.billing.billingOptions.options.1"][@name="checkout.billing.billingOptions.selectBillingOption"]' 
+btn_continue_to_review = '//button[@id="rs-checkout-continue-button-bottom"][@type="button"][@class=" form-button "]' 
 
-# boton para contratar la compra
 
-btn_place_your_order = '/html/body/div[2]/div[4]/div/div[5]/div[1]/div[1]/div/div/div[2]/div[5]/div/div/div/div[1]/button'
+''' Pagina confirmacion de compra ''' 
+# boton para concretar la compra
+btn_place_your_order = '//button[@id="rs-checkout-continue-button-bottom"][@type="button"][@class=" form-button "]'
+
+
+
+# pagina de compra realizada
+text_nr_orden = '//*[@id="thankyou-container"]/div/div[2]/div[1]/div/div/a'
+
+
 
