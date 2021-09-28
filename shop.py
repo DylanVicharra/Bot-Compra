@@ -63,10 +63,11 @@ def seleccion_producto(driver, producto, tiempo_espera):
     print("Se selecciono el producto satisfactoriamente")
 
     try: 
-        WebDriverWait(driver, tiempo_espera).until(EC.element_to_be_clickable((By.XPATH, ew.btn_activation_carrier_now)))
-        driver.execute_script("arguments[0].click();", driver.find_element_by_xpath(ew.btn_activation_carrier_now))
+        if producto.operador != 'unlocked':
+            WebDriverWait(driver, tiempo_espera).until(EC.element_to_be_clickable((By.XPATH, ew.btn_activation_carrier_now)))
+            driver.execute_script("arguments[0].click();", driver.find_element_by_xpath(ew.btn_activation_carrier_now))
     except:
-        pass        
+        pass      
 
     '''if producto.modelo != 'iphone-12' and producto.operador != 'unlocked':
         WebDriverWait(driver, tiempo_espera).until(EC.element_to_be_clickable((By.XPATH, ew.btn_activation_carrier_now)))
