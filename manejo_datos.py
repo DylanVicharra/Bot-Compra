@@ -38,12 +38,12 @@ def verificacion_apple_store(apple_store):
             return lista_stores[store] 
     raise Exception("No se encontro la tienda seleccionada en el archivo stores.json") # de momento, ver para despues (colocar return False)
 
-# PRUEBA
+
 def listado_tiendas_opcionales(tiendas_excel, fila):
     
     tiendas_opcionales = {}
 
-    for i in range(1, 4):
+    for i in range(1, 10):
         # Con 'nan' se refiere que es vacio, lo cual no quiero agregar
         if str(tiendas_excel.loc[fila,f'OPCIONAL {i}']) != "nan":
             tiendas_opcionales[f'{i}'] = verificacion_apple_store(str(tiendas_excel.loc[fila, f'OPCIONAL {i}']))
