@@ -34,6 +34,22 @@
     "8":{
         "nombre":"APPLE LINCOLN",
         "codigo":"R115"
-    } 
+    },
+    "9":{
+        "nombre":"APPLE WATERSIDE SHOPS",
+        "codigo":"R169"
+    },
+    "10":{
+        "nombre":"APPLE THE GARDEN MALL",
+        "codigo":"R127"
+    }, 
+    "11":{
+        "nombre":"APPLE COCONUT POINT",
+        "codigo":"R185"
+    },
+    "12":{
+        "nombre":"APPLE UNIVERSITY TOWN CENTER",
+        "codigo":"R615"
+    }    
 
 }
