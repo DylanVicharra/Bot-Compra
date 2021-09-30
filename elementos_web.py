@@ -64,6 +64,9 @@ select_hora = '//select[@aria-labelledby="timeWindows_label"][@class=" form-drop
 # Delivery 
 # Label Opciones
 btn_delivery_option = '//div[@class="form-selector rs-fulfillment-deliveryoption"]'
+# Label cabeceras 
+label_entrega_fecha = './/span[@class="form-selector-title"]'
+label_entrega_costo = './/span[@class="column form-selector-right-col"]'
 # Horarios
 btn_setup_hora = '//div[@class="row large-12 small-12 form-selector-twocolumns"]'
 # Boton

@@ -69,10 +69,6 @@ def seleccion_producto(driver, producto, tiempo_espera):
     except:
         pass        
 
-    '''if producto.modelo != 'iphone-12' and producto.operador != 'unlocked':
-        WebDriverWait(driver, tiempo_espera).until(EC.element_to_be_clickable((By.XPATH, ew.btn_activation_carrier_now)))
-        driver.execute_script("arguments[0].click();", driver.find_element_by_xpath(ew.btn_activation_carrier_now))'''
-
 
 def traspaso_operador(driver, producto, tiempo_espera):
     
@@ -259,35 +255,44 @@ def order_options(driver, producto, tiempo_espera):
         # Listo todas las opciones de delivery
         WebDriverWait(driver, tiempo_espera).until(EC.visibility_of_all_elements_located((By.XPATH, ew.btn_delivery_option)))
         opciones = driver.find_elements_by_xpath(ew.btn_delivery_option)
-
+        
         # Verifico el tamaño de la lista de opciones
         if len(opciones) != 0:
             indice = 0
 
             for opcion in opciones:    
+                
+                if ((opcion.find_element_by_xpath(f'{ew.label_entrega_costo}/span').text).find("FREE") !=-1):
 
-                if ((opcion.find_element_by_xpath('.//span[@class="form-selector-title"]').text).find("Tomorrow") != -1):
-                    driver.execute_script("arguments[0].click();", opcion.find_element_by_xpath('.//label'))
-                    break
+                    if ((opcion.find_element_by_xpath(ew.label_entrega_fecha).text).find("Tomorrow") != -1):
+                        driver.execute_script("arguments[0].click();", opcion.find_element_by_xpath('.//label'))
+                        break
 
-                elif ((opcion.find_element_by_xpath('.//span[@class="form-selector-title"]').text).find("with Setup") != -1):
-                    driver.execute_script("arguments[0].click();", opcion.find_element_by_xpath('.//label'))
-                    
-                    # Espero que se cargue los horarios
-                    WebDriverWait(driver, tiempo_espera).until(EC.visibility_of_all_elements_located((By.XPATH, ew.btn_setup_hora)))
-                    opciones_horarios = driver.find_elements_by_xpath(f'{ew.btn_setup_hora}/div/input')
+                    elif ((opcion.find_element_by_xpath(ew.label_entrega_fecha).text).find("with Setup") != -1):
+                        driver.execute_script("arguments[0].click();", opcion.find_element_by_xpath('.//label'))
+                        
+                        # Espero que se cargue los horarios
+                        WebDriverWait(driver, tiempo_espera).until(EC.visibility_of_all_elements_located((By.XPATH, ew.btn_setup_hora)))
+                        opciones_horarios = driver.find_elements_by_xpath(f'{ew.btn_setup_hora}/div/input')
 
-                    # Listo solo los disponibles
-                    opciones_horarios = horarios_disponibles(opciones_horarios)
+                        # Listo solo los disponibles
+                        opciones_horarios = horarios_disponibles(opciones_horarios)
 
-                    # Selecciono la segunda opcion de la lista de disponibles
-                    driver.execute_script("arguments[0].click();", opciones_horarios[1])
-                    break
+                        # Selecciono la segunda opcion de la lista de disponibles
+                        driver.execute_script("arguments[0].click();", opciones_horarios[1])
+                        break
+                    else:
+                        indice+=1
                 else:
                     indice+=1
             
             if len(opciones) == indice:
-                raise Exception("No hay opciones deseadas disponible")
+                # No se encontraron las opciones de envio mañana o el otro tipo de entrega
+                print("No se encontraron las opciones de delivery de preferencia. Se buscara otra opcion")
+
+                for opcion in opciones:
+                    if ((opcion.find_element_by_xpath(f'{ew.label_entrega_costo}/span').text).find("FREE") !=-1):
+                        driver.execute_script("arguments[0].click();", opcion.find_element_by_xpath('.//label'))
 
 
     if selectOption == 1:
