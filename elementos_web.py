@@ -62,8 +62,15 @@ label_date = '//input[@id="bartPickupDateSelector{}"]'
 # Seleccion de hora 
 select_hora = '//select[@aria-labelledby="timeWindows_label"][@class=" form-dropdown-select"]'
 # Delivery 
+# Label Opciones
+btn_delivery_option = '//div[@class="large-12 small-12 form-selector"]'
+# Label cabeceras 
+label_entrega_fecha = './/span[@class="form-selector-title"]'
+label_entrega_costo = './/span[@class="column form-selector-right-col"]'
+# Horarios
+btn_setup_hora = '//div[@class="rs-time-window-slot rc-dimension-selector-row form-selector"]'
 # Boton
-btn_continue_shipping = '//button[@id="rs-checkout-continue-button-bottom"][@type="button"][@class=" form-button "]' 
+btn_continue_shipping = '//button[@id="rs-checkout-continue-button-bottom"][@type="button"][@class="form-button"]' 
 
 
 ''' Pagina de seleccion de la persona que retira el producto '''
@@ -74,19 +81,19 @@ text_lastName = '//input[@type="text"][@name="lastName"]'
 text_email = '//input[@type="email"][@name="emailAddress"]'
 text_phoneNumber = '//input[@type="tel"][@name="fullDaytimePhone"]'
 # Boton 
-btn_continue_payment = '//button[@id="addressVerification"][@type="button"][@class=" form-button "]'
+btn_continue_payment = '//button[@id="rs-checkout-continue-button-bottom"][@type="button"][@class="form-button"][@data-autom="shipping-continue-button"]'
 
 
 ''' Pagina de forma de pago ''' 
 # botones en la pagina billing 
 contenedor_billling = '//fieldset[@class="rs-payment-section"]'
-btn_credit_card = '//input[@id="checkout.billing.billingOptions.options.1"][@name="checkout.billing.billingOptions.selectBillingOption"]' 
-btn_continue_to_review = '//button[@id="rs-checkout-continue-button-bottom"][@type="button"][@class=" form-button "]' 
+btn_credit_card = '//input[@id="checkout.billing.billingoptions.saved_card"][@name="checkout.billing.billingOptions.selectBillingOption"]' 
+btn_continue_to_review = '//button[@id="rs-checkout-continue-button-bottom"][@type="button"][@class="form-button"]' 
 
 
 ''' Pagina confirmacion de compra ''' 
 # boton para concretar la compra
-btn_place_your_order = '//button[@id="rs-checkout-continue-button-bottom"][@type="button"][@class=" form-button "]'
+btn_place_your_order = '//button[@id="rs-checkout-continue-button-bottom"][@type="button"][@class="form-button"][@data-autom="continue-button-label"][@aria-describedby="rs-checkout-continuedisclaimer-bottom"]'
 
 
 
