@@ -192,7 +192,8 @@ def info_envio_o_retiro(driver, producto, tiempo_espera):
     print("Se rellena la informacion de contacto")
 
     if (producto.order_option["nombre"] == 'DELIVERY'):
-        WebDriverWait(driver, tiempo_espera).until(EC.element_to_be_clickable((By.XPATH, ew.btn_continue_payment)))
+        WebDriverWait(driver, tiempo_espera).until(EC.visibility_of_element_located((By.XPATH, ew.btn_continue_payment)))
+        scroll_to(driver, driver.find_element_by_xpath(ew.btn_continue_payment))
         driver.execute_script("arguments[0].click();", driver.find_element_by_xpath(ew.btn_continue_payment))
     else:
         try:
@@ -262,7 +263,7 @@ def order_options(driver, producto, tiempo_espera):
 
             for opcion in opciones:    
                 
-                if ((opcion.find_element_by_xpath(f'{ew.label_entrega_costo}/span').text).find("FREE") !=-1):
+                if ((opcion.find_element_by_xpath(f'{ew.label_entrega_costo}').text).find("FREE") !=-1):
 
                     if ((opcion.find_element_by_xpath(ew.label_entrega_fecha).text).find("Tomorrow") != -1):
                         driver.execute_script("arguments[0].click();", opcion.find_element_by_xpath('.//label'))
@@ -273,14 +274,19 @@ def order_options(driver, producto, tiempo_espera):
                         
                         # Espero que se cargue los horarios
                         WebDriverWait(driver, tiempo_espera).until(EC.visibility_of_all_elements_located((By.XPATH, ew.btn_setup_hora)))
-                        opciones_horarios = driver.find_elements_by_xpath(f'{ew.btn_setup_hora}/div/input')
+                        opciones_horarios = driver.find_elements_by_xpath(f'{ew.btn_setup_hora}/input')
 
                         # Listo solo los disponibles
                         opciones_horarios = horarios_disponibles(opciones_horarios)
 
-                        # Selecciono la segunda opcion de la lista de disponibles
-                        driver.execute_script("arguments[0].click();", opciones_horarios[1])
-                        break
+                        if len(opciones_horarios)==1:
+                            print("Solo existe un solo horario disponible, por lo tanto se lo seleccionara")
+                            driver.execute_script("arguments[0].click();", opciones_horarios[0])
+                            break   
+                        else:
+                            # Selecciono la segunda opcion de la lista de disponibles
+                            driver.execute_script("arguments[0].click();", opciones_horarios[1])
+                            break 
                     else:
                         indice+=1
                 else:
