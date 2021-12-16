@@ -139,10 +139,16 @@ def bolsa(driver, producto, tiempo_espera):
         WebDriverWait(driver, tiempo_espera).until(EC.visibility_of_element_located((By.XPATH, ew.select_cantidad)))
         desplegableCant = driver.find_element_by_xpath(ew.select_cantidad)
         selectCant = Select(desplegableCant)
+        # Precio base
+        precio_unitario = float((driver.find_element_by_xpath(ew.label_precio).text).replace("$", "").strip())
 
-        if (producto.cantidad <=10):
+        if (producto.cantidad <10):
+            selectCant.select_by_value(str(producto.cantidad))
+        elif (producto.cantidad == 10):
             selectCant.select_by_value(str(producto.cantidad))
 
+            WebDriverWait(driver, tiempo_espera).until(EC.visibility_of_element_located((By.XPATH, ew.text_cantidad)))
+            driver.find_element_by_xpath(ew.text_cantidad).send_keys(Keys.ENTER)
         elif (producto.cantidad > 10 and producto.cantidad <= 99):
             selectCant.select_by_value('10')
 
@@ -150,11 +156,10 @@ def bolsa(driver, producto, tiempo_espera):
             driver.find_element_by_xpath(ew.text_cantidad).send_keys(str(producto.cantidad) + Keys.ENTER)
         else: 
             raise('la cantidad dada es mucho mayor a la permitida')
+        
+        WebDriverWait(driver, tiempo_espera).until(EC.text_to_be_present_in_element((By.XPATH, ew.label_precio), f'${"{:,}".format(producto.cantidad*precio_unitario)}0'))
     else:
         tiempo_espera += 2
-
-    # Espera a que los elementos seleccionados se vuelvan a cargar con la informacion cambiada
-    sleep(2)
 
     WebDriverWait(driver, tiempo_espera).until(EC.element_to_be_clickable((By.XPATH, ew.btn_checkout)))
     driver.execute_script("arguments[0].click();", driver.find_element_by_xpath(ew.btn_checkout))
