@@ -56,11 +56,11 @@ text_password = '//input[@id="password_text_field"][@type="password"][@can-field
 btn_fillmentOption = '//input[@id="fulfillmentOptionButtonGroup{}"]'
 # Pick up
 # Seleccion lugar y dia
-btn_lugar_definido_espera = '//label[@class="form-selector-label "][@for="checkout.fulfillment.pickupTab.pickup.storeLocator-{}"]'
-btn_lugar_definido = '//input[@value="{}"][@id="checkout.fulfillment.pickupTab.pickup.storeLocator-{}"]'
+btn_lugar_definido_espera = '//label[@class="form-selector-label"]'
+btn_lugar_definido = '//input[@value="{}"][@class="form-selector-input"]'
 label_date = '//input[@id="bartPickupDateSelector{}"]'
 # Seleccion de hora 
-select_hora = '//select[@aria-labelledby="timeWindows_label"][@class=" form-dropdown-select"]'
+select_hora = '//select[@class="form-dropdown-select form-dropdown-selectnone"]'
 # Delivery 
 # Label Opciones
 btn_delivery_option = '//div[@class="large-12 small-12 form-selector"]'

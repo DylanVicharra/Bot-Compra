@@ -204,11 +204,13 @@ def info_envio_o_retiro(driver, producto, tiempo_espera):
 
         WebDriverWait(driver, tiempo_espera).until(EC.visibility_of_element_located((By.XPATH, ew.text_firstName)))
         textFirtsName = driver.find_element_by_xpath(ew.text_firstName)
-        textFirtsName.clear()
+        textFirtsName.send_keys(Keys.CONTROL + 'a')
+        textFirtsName.send_keys(Keys.DELETE)
         textFirtsName.send_keys('Esteban')
 
         textLastName = driver.find_element_by_xpath(ew.text_lastName)
-        textLastName.clear()
+        textLastName.send_keys(Keys.CONTROL + 'a')
+        textLastName.send_keys(Keys.DELETE)
         textLastName.send_keys('Iturrieta')
 
         scroll_to(driver, driver.find_element_by_xpath(ew.btn_continue_shipping))
@@ -220,7 +222,7 @@ def stores_preferencias(driver, producto):
     lista_stores_preferencias = producto.lista_tiendas_opcionales
 
     for apple_store in lista_stores_preferencias:
-        tienda_pos_disponible = driver.find_element_by_xpath(ew.btn_lugar_definido.format(lista_stores_preferencias[apple_store]["codigo"], lista_stores_preferencias[apple_store]["codigo"]))
+        tienda_pos_disponible = driver.find_element_by_xpath(ew.btn_lugar_definido.format(lista_stores_preferencias[apple_store]["codigo"]))
         if tienda_pos_disponible.get_property('disabled') == False: 
             print(f'Se encontro una tienda disponible: {lista_stores_preferencias[apple_store]["nombre"]}')
             producto.order_option = lista_stores_preferencias[apple_store]
@@ -305,9 +307,9 @@ def order_options(driver, producto, tiempo_espera):
         WebDriverWait(driver, tiempo_espera).until(EC.visibility_of_element_located((By.XPATH, '//button[@data-autom="show-more-stores-button"]')))
         driver.execute_script("arguments[0].click();", driver.find_element_by_xpath('//button[@data-autom="show-more-stores-button"]'))
         
-        WebDriverWait(driver, tiempo_espera).until(EC.visibility_of_element_located((By.XPATH, ew.btn_lugar_definido_espera.format(producto.order_option["codigo"]))))
+        WebDriverWait(driver, tiempo_espera).until(EC.visibility_of_element_located((By.XPATH, f'{ew.btn_lugar_definido.format(producto.order_option["codigo"])}/..{ew.btn_lugar_definido_espera}')))
 
-        boton = driver.find_element_by_xpath(ew.btn_lugar_definido.format(producto.order_option["codigo"], producto.order_option["codigo"]))    
+        boton = driver.find_element_by_xpath(ew.btn_lugar_definido.format(producto.order_option["codigo"]))    
         
         if boton.get_property('disabled')==True:
             print(f'La tienda {producto.order_option["nombre"]} no esta disponible se va encontrar otro')
