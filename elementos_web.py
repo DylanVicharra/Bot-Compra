@@ -38,6 +38,8 @@ btn_add_bag_2 = '//a[@id="preauth-button-next"][@class="button as-preauth-button
 btn_checkout = '//button[@id="shoppingCart.actions.navCheckout"][@class="button button-block"][@data-autom="checkout"]'
 # Lista desplegable 
 select_cantidad = '//select[@class="rs-quantity-dropdown form-dropdown-select"]' 
+# Texto precio
+label_precio = '//div[@class="rs-iteminfo-price"]/p'
 # texto si es una cantidad mayor a 10
 text_cantidad = '//input[@type="tel"][@value="10"]'
 
