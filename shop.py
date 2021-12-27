@@ -254,7 +254,32 @@ def order_options(driver, producto, tiempo_espera):
     WebDriverWait(driver, tiempo_espera).until(EC.presence_of_element_located((By.XPATH, ew.btn_fillmentOption.format(selectOption))))
     driver.execute_script("arguments[0].click();", driver.find_element_by_xpath(ew.btn_fillmentOption.format(selectOption)))
 
+    if selectOption == 0:
+        # Listo todas las opciones de delivery
+        WebDriverWait(driver, tiempo_espera).until(EC.visibility_of_all_elements_located((By.XPATH, ew.btn_delivery_option)))
+        opciones = driver.find_elements_by_xpath(ew.btn_delivery_option)
+        
+        # Verifico el tamaño de la lista de opciones
+        if len(opciones) != 0:
+            indice = 0
 
+            for opcion in opciones:    
+                
+                if ((opcion.find_element_by_xpath(f'{ew.label_entrega_costo}').text).find("FREE") !=-1):
+
+                    if ((opcion.find_element_by_xpath(ew.label_metodo).text).find("Express Delivery") != -1):
+                        driver.execute_script("arguments[0].click();", opcion.find_element_by_xpath('.//label'))
+                        break
+                    else:
+                        indice+=1
+                else:
+                    indice+=1
+                    
+            if len(opciones) == indice:
+                # No se encontraron las opciones de envio mañana o el otro tipo de entrega
+                raise Exception("No se encontro alguna opcion de Express Delivery")
+               
+                    
     if selectOption == 1:
         WebDriverWait(driver, tiempo_espera).until(EC.visibility_of_element_located((By.XPATH, '//button[@data-autom="show-more-stores-button"]')))
         driver.execute_script("arguments[0].click();", driver.find_element_by_xpath('//button[@data-autom="show-more-stores-button"]'))
