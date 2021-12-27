@@ -68,6 +68,7 @@ select_hora = '//select[@class="form-dropdown-select form-dropdown-selectnone"]'
 btn_delivery_option = '//div[@class="large-12 small-12 form-selector"]'
 # Label cabeceras 
 label_entrega_fecha = './/span[@class="form-selector-title"]'
+label_metodo = './/span[@class="form-label-small"]'
 label_entrega_costo = './/span[@class="column form-selector-right-col"]'
 # Horarios
 btn_setup_hora = '//div[@class="rs-time-window-slot rc-dimension-selector-row form-selector"]'
