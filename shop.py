@@ -9,6 +9,7 @@ import elementos_web as ew
 
 
 
+
 def scroll_to(driver, elemento):
     driver.execute_script("arguments[0].scrollIntoView({block:'center'});", elemento)
 
@@ -63,9 +64,14 @@ def seleccion_producto(driver, producto, tiempo_espera):
     print("Se selecciono el producto satisfactoriamente")
 
     try: 
-        if producto.operador != 'unlocked':
-            WebDriverWait(driver, tiempo_espera).until(EC.element_to_be_clickable((By.XPATH, ew.btn_activation_carrier_now)))
-            driver.execute_script("arguments[0].click();", driver.find_element_by_xpath(ew.btn_activation_carrier_now))
+        if producto.operador != 'unlocked': 
+            WebDriverWait(driver, tiempo_espera).until(EC.presence_of_element_located((By.XPATH,"//title")))
+
+            if driver.title == "Carrier Activation - Apple":
+                WebDriverWait(driver, tiempo_espera).until(EC.element_to_be_clickable((By.XPATH, ew.btn_activation_carrier_now)))
+                driver.execute_script("arguments[0].click();", driver.find_element_by_xpath(ew.btn_activation_carrier_now))
+            else:
+                pass
     except:
         pass        
 
@@ -92,11 +98,10 @@ def traspaso_operador(driver, producto, tiempo_espera):
                     raise Exception ("No cargaron los elementos")
 
         driver.find_element_by_xpath(ew.text_nr_operador).send_keys("7868639220")
-
         driver.find_element_by_xpath(ew.text_cod_postal_operador).send_keys("33178")
 
-        sleep(2)
-     
+        sleep(4)
+
         scroll_to(driver, driver.find_element_by_xpath(ew.btn_siguiente_operador))
         driver.execute_script("arguments[0].click();", driver.find_element_by_xpath(ew.btn_siguiente_operador))
 
@@ -356,9 +361,10 @@ def obtener_orden(driver, producto, tiempo_espera):
     scroll_to(driver, driver.find_element_by_xpath(ew.btn_place_your_order))
     driver.execute_script("arguments[0].click();", driver.find_element_by_xpath(ew.btn_place_your_order))
 
-    driver.implicitly_wait(8)
-    
+    sleep(3)
+
     try:
+        WebDriverWait(driver, tiempo_espera).until(EC.visibility_of_element_located((By.XPATH,ew.text_nr_orden)))
         orden = driver.find_element_by_xpath(ew.text_nr_orden)
 
         producto.producto_orden = {
@@ -372,15 +378,18 @@ def obtener_orden(driver, producto, tiempo_espera):
 
         sleep(2)
         return True  
-    except:
-        pass 
 
-    try:
-        WebDriverWait(driver, 4).until(EC.visibility_of_element_located((By.XPATH, '//div[@role="alert"]')))
-        print("Hubo un error con la tarjeta seleccionada, utilizar otro usuario para esta compra")
     except:
-        raise Exception ("El producto no se puede retirar en tienda, solo delivery")
 
-    
+        if driver.title == "Order Options — Secure Checkout":
+            raise Exception("Solo se permite que la entrega sea en delivery.")
+        elif driver.title == "Rewiew Order — Secure Checkout":
+            raise Exception("La fecha selecciona no se encuentra disponible.")
+        elif driver.title == "Payment Details — Secure Checkout":
+            raise Exception("Debe ingresar otra tarjeta para la compra.")
+        elif driver.title == "Sorry — Apple":
+            raise Exception("Ha ocurrido un error con el proceso de la compra")
+        else: 
+            raise Exception("Ha ocurrido un error inesperado")
     
 
