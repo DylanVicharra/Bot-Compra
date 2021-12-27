@@ -100,7 +100,7 @@ btn_place_your_order = '//button[@id="rs-checkout-continue-button-bottom"][@type
 
 
 # pagina de compra realizada
-text_nr_orden = '//*[@id="thankyou-container"]/div/div[2]/div[1]/div/div/a'
+text_nr_orden = '//a[@class="as-buttonlink rs-thankyou-ordernumber"][@data-autom="order-number"]'
 
 
 
