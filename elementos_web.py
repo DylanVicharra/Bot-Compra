@@ -23,13 +23,13 @@ btn_activation_carrier_now = '//button[@type="submit"][@class="rf-carrier-fork-o
 
 ''' Pagina de validadcion del operador  '''
 # botones y textos para verificacion del operador
-contenedor_elementos_operador = '//div[@id="primary"][@role="main"]'
-text_nr_operador = '//input[@id="ctn"][@type="tel"][@name="ctn"][@placeholder="Wireless Number"]'
-text_cod_postal_operador = '//input[@id="postalcode"][@type="number"][@name="postalcode"][@placeholder="Billing Zip Code"]'
-btn_siguiente_operador = '//button[@id="preauth-button-next"][@type="submit"][@title="Continue"]'
+contenedor_elementos_operador = '//div[@class="page-body"]'
+text_nr_operador = '//input[@type="tel"][@name="wirelessNumber"][@class="form-textbox-input"]'
+text_cod_postal_operador = '//input[@type="tel"][@name="postalcode"][@class="form-textbox-input"]'
+btn_siguiente_operador = '//button[@type="submit"][@class="button"]'
 
 # botones en aviso del operador y descripcion del dispositivo
-btn_add_bag_2 = '//a[@id="preauth-button-next"][@class="button as-preauth-button-continue"]'
+btn_add_bag_2 = '//button[@type="submit"][@class="button"]'
 
 
 
