@@ -87,7 +87,7 @@ def traspaso_operador(driver, producto, tiempo_espera):
         intentos = 0
         while not contenedor_operador:
             try:
-                WebDriverWait(driver, tiempo_espera).until(EC.presence_of_element_located((By.XPATH, ew.contenedor_elementos_operador)))
+                WebDriverWait(driver, tiempo_espera).until(EC.visibility_of_element_located((By.XPATH, ew.contenedor_elementos_operador)))
                 contenedor_operador = True
             except (NoSuchWindowException, WebDriverException):
                 contenedor_operador = True
@@ -97,6 +97,8 @@ def traspaso_operador(driver, producto, tiempo_espera):
                 if intentos > 3:
                     contenedor_operador = True
                     raise Exception ("No cargaron los elementos")
+
+        WebDriverWait(driver, tiempo_espera).until(EC.visibility_of_element_located((By.XPATH, ew.text_nr_operador)))
 
         driver.find_element_by_xpath(ew.text_nr_operador).send_keys("7868639220")
 
@@ -126,7 +128,7 @@ def traspaso_operador(driver, producto, tiempo_espera):
                 raise Exception("Se cerro la ventana del navegador")                  
             except TimeoutException: 
                 intentos+=1 
-                if intentos > 3:
+                if intentos > 4:
                     nueva_pagina = True
                     raise Exception ("No cargo el elemento")
 
