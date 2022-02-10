@@ -23,14 +23,13 @@ btn_activation_carrier_now = '//button[@type="submit"][@class="rf-carrier-fork-o
 
 ''' Pagina de validadcion del operador  '''
 # botones y textos para verificacion del operador
-contenedor_elementos_operador = '//div[@id="primary"]'
-text_nr_operador = '//input[@id="ctn"][@name="ctn"]'
-text_cod_postal_operador = '//input[@id="postalcode"][@name="postalcode"]'
-btn_siguiente_operador = '//button[@id="preauth-button-next"]'
+contenedor_elementos_operador = '//div[@class="page-body"]'
+text_nr_operador = '//input[@type="tel"][@name="wirelessNumber"][@class="form-textbox-input"]'
+text_cod_postal_operador = '//input[@type="tel"][@name="postalcode"][@class="form-textbox-input"]'
+btn_siguiente_operador = '//button[@type="submit"][@class="button"]'
 
 # botones en aviso del operador y descripcion del dispositivo
-btn_add_bag_2 = '//a[@id="preauth-button-next"]'
-
+btn_add_bag_2 = '//button[@type="submit"][@class="button"]'
 
 
 ''' Pagina del carrito '''
@@ -102,6 +101,5 @@ btn_place_your_order = '//button[@id="rs-checkout-continue-button-bottom"][@type
 
 # pagina de compra realizada
 text_nr_orden = '//a[@class="as-buttonlink rs-thankyou-ordernumber"][@data-autom="order-number"]'
-
 
 
