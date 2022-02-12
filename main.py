@@ -49,7 +49,7 @@ def main():
     hoja_excel = 'Compras'.rstrip()
     # Tiempo maximo de espera 
     tiempo_espera = 8
-    # Instalacion del ejecutable (aplicar un try y explicar en que casos hay que borrar el cache)
+    # Instalacion del ejecutable 
     print("Instalacion del Webdriver de Chrome")
     
     try:
@@ -91,7 +91,6 @@ def main():
 
                 if atributosProducto.estado ==  "Completado":
                     md.escribir_fila_excel(archivo_ordenes, "Ordenes", atributosProducto.producto_orden, lista_compra[producto]["nombre"], atributosProducto.order_option["nombre"])
-                    # Se tiene que hacer el guardado en el otro archivo, ver como hacerlo, agregar mas atributos a producto???
                 else:
                     print(f'Ha fallado la compra del {lista_compra[producto]["nombre"]}')
             
@@ -101,7 +100,6 @@ def main():
 
             if atributosProducto.estado ==  "Completado":
                 md.escribir_fila_excel(archivo_ordenes, "Ordenes", atributosProducto.producto_orden, lista_compra[producto]["nombre"], atributosProducto.order_option["nombre"])
-                # Se tiene que hacer el guardado en el otro archivo, ver como hacerlo, agregar mas atributos a producto???
             else:
                 print(f'Ha fallado la compra del {lista_compra[producto]["nombre"]}')
 
