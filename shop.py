@@ -6,10 +6,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 import elementos_web as ew
-import locale
 
-# variable 
-locale.setlocale(locale.LC_ALL, 'en_US.UTF-8')
 
 def scroll_to(driver, elemento):
     driver.execute_script("arguments[0].scrollIntoView({block:'center'});", elemento)
@@ -147,7 +144,8 @@ def bolsa(driver, producto, tiempo_espera):
         desplegableCant = driver.find_element_by_xpath(ew.select_cantidad)
         selectCant = Select(desplegableCant)
         # Precio base
-        precio_unitario = locale.atof((driver.find_element_by_xpath(ew.label_precio).text).replace("$", "").strip())
+        texto_precio = (driver.find_element_by_xpath(ew.label_precio).text).replace("$", "").replace(",","").strip()
+        precio_unitario = float(texto_precio)
 
         if (producto.cantidad <10):
             selectCant.select_by_value(str(producto.cantidad))
@@ -164,8 +162,7 @@ def bolsa(driver, producto, tiempo_espera):
         else: 
             raise('la cantidad dada es mucho mayor a la permitida')
         
-
-        precio_total = locale.format('%.2f', producto.cantidad*precio_unitario, grouping=True, monetary=True)
+        precio_total = f'{"{:,}".format(producto.cantidad*precio_unitario)}0'
         WebDriverWait(driver, tiempo_espera).until(EC.text_to_be_present_in_element((By.XPATH, ew.label_precio), f'${precio_total}'))
     else:
         tiempo_espera += 2
