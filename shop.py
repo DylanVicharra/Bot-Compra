@@ -46,6 +46,7 @@ def seleccion_producto(driver, producto, tiempo_espera):
                 contenedor_producto = True
                 raise Exception ("No cargaron los elementos")
 
+    WebDriverWait(driver, tiempo_espera).until(EC.presence_of_element_located((By.XPATH, ew.btn_trade)))
     driver.execute_script("arguments[0].click();", driver.find_element_by_xpath(ew.btn_trade))
 
     if producto.operador != 'unlocked':
