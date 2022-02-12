@@ -111,8 +111,8 @@ def lectura_lista_compra(nombre_archivo, hoja):
     for i in lista_compra.index:
         try:
             dic = {}
-            dic['nombre'] = str(lista_compra.loc[i,"MODELO"])
-            dic['objeto'] = Producto(*verificacion_modelo(str(lista_compra.loc[i,"MODELO"])),
+            nombre = str(lista_compra.loc[i,"MODELO"])
+            objeto = Producto(*verificacion_modelo(str(lista_compra.loc[i,"MODELO"])),
                                      str(lista_compra.loc[i,"OPERADOR"]).lower(),
                                      int(lista_compra.loc[i,"CANTIDAD"]),
                                      str(lista_compra.loc[i,"USER"]),
@@ -121,6 +121,9 @@ def lectura_lista_compra(nombre_archivo, hoja):
                                      listado_tiendas_opcionales(lista_compra, i)  
                                     )
 
+            dic["nombre"] = nombre
+            dic["objeto"] = objeto
+                            
             modelos_a_comprar[i] = dic
 
         except Exception as ex:
