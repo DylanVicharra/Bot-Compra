@@ -103,7 +103,12 @@ def main():
             else:
                 print(f'Ha fallado la compra del {lista_compra[producto]["nombre"]}')
 
-    archivo_ordenes.save(f'{md.date.today()}-{archivo_excel}.xlsx')
+    try:
+        archivo_ordenes.save(f'{md.date.today()}-{archivo_excel}.xlsx')
+    except PermissionError:
+        print("Ha ocurrido un error al guardar este archivo.")
+        print(f"Posiblemente el archivo existente este siendo usado por otro programa o no tenga los permisos necesarios para modificarlo.\nSe guardara la informacion en un nuevo archivo llamado '{md.date.today()}-{archivo_excel}-respaldo.xls'") 
+        archivo_ordenes.save(f'{md.date.today()}-{archivo_excel}-respaldo.xlsx')  
 
     print("Finalizando BOT APPLE...")
 
