@@ -61,7 +61,7 @@ def seleccion_producto(driver, producto, tiempo_espera):
     driver.execute_script("arguments[0].click();", driver.find_element_by_xpath(ew.btn_continue_product))
 
     print("Se selecciono el producto satisfactoriamente")
-
+    
     try: 
         if producto.operador != 'unlocked': 
             WebDriverWait(driver, tiempo_espera).until(EC.presence_of_element_located((By.XPATH,"//title")))
@@ -194,11 +194,19 @@ def login_appleId(driver, producto, tiempo_espera):
     
     WebDriverWait(driver, tiempo_espera).until(EC.visibility_of_element_located((By.XPATH, ew.text_username)))
     driver.find_element_by_xpath(ew.text_username).send_keys(producto.username)
-    driver.find_element_by_xpath(ew.text_username).send_keys(Keys.ENTER)
+    
+    sleep(2)
+
+    WebDriverWait(driver, tiempo_espera).until(EC.visibility_of_element_located((By.XPATH, ew.button_sign_in)))
+    driver.execute_script("arguments[0].click();", driver.find_element_by_xpath(ew.button_sign_in))
 
     WebDriverWait(driver, tiempo_espera).until(EC.visibility_of_element_located((By.XPATH, ew.text_password)))
     driver.find_element_by_xpath(ew.text_password).send_keys(producto.password)
-    driver.find_element_by_xpath(ew.text_password).send_keys(Keys.ENTER)
+    
+    sleep(2)
+
+    WebDriverWait(driver, tiempo_espera).until(EC.visibility_of_element_located((By.XPATH, ew.button_sign_in)))
+    driver.execute_script("arguments[0].click();", driver.find_element_by_xpath(ew.button_sign_in))
 
     print("Apple ID ingresado correctamente")
 

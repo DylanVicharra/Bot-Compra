@@ -49,6 +49,7 @@ text_cantidad = '//input[@type="tel"][@value="10"]'
 contenedor_apple_id = '//iframe[@id="aid-auth-widget-iFrame"][@name="aid-auth-widget"]'
 text_username = '//input[@id="account_name_text_field"][@type="text"][@can-field="accountName"]'
 text_password = '//input[@id="password_text_field"][@type="password"][@can-field="password"]'
+button_sign_in = '//button[@id="sign-in"]'
 
 
 ''' Pagina de seleccion de entrega '''
