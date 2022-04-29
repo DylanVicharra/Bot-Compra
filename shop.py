@@ -240,7 +240,7 @@ def info_envio_o_retiro(driver, producto, tiempo_espera):
         driver.execute_script("arguments[0].click();", driver.find_element_by_xpath(ew.btn_continue_shipping))
 
 
-def stores_preferencias(driver, producto):
+def stores_preferencias(driver, producto, tiempo_espera):
     # Buscar todas las opciones 
     lista_stores_preferencias = producto.lista_tiendas_opcionales
 
@@ -250,7 +250,11 @@ def stores_preferencias(driver, producto):
             print(f'Se encontro una tienda disponible: {lista_stores_preferencias[apple_store]["nombre"]}')
             producto.order_option = lista_stores_preferencias[apple_store]
             driver.execute_script("arguments[0].click();", tienda_pos_disponible)
-            return True
+            try: 
+                WebDriverWait(driver, tiempo_espera).until(EC.visibility_of_element_located((By.XPATH, '//li[@class="rt-storelocator-store-multipleavailability"]')))
+                return True
+            except:
+                print(f'La tienda {producto.order_option["nombre"]} no tiene disponibles horarios, se buscara otro.')
 
     raise Exception("No se encontro ninguna tienda disponible dentro de las preferencias. Se termina la compra")
 
@@ -302,9 +306,15 @@ def order_options(driver, producto, tiempo_espera):
         
         if boton.get_property('disabled')==True:
             print(f'La tienda {producto.order_option["nombre"]} no esta disponible se va encontrar otro')
-            stores_preferencias(driver, producto)
+            stores_preferencias(driver, producto, tiempo_espera)
         else: 
             driver.execute_script("arguments[0].click();", boton)
+
+            try: 
+                WebDriverWait(driver, tiempo_espera).until(EC.visibility_of_element_located((By.XPATH, '//li[@class="rt-storelocator-store-multipleavailability"]')))
+            except:
+                print(f'La tienda {producto.order_option["nombre"]} no tiene disponibles horarios, se buscara otro.')
+                stores_preferencias(driver, producto, tiempo_espera)
 
         WebDriverWait(driver, tiempo_espera).until(EC.visibility_of_element_located((By.XPATH, ew.select_hora)))
         desplegableHora = driver.find_element_by_xpath(ew.select_hora)
