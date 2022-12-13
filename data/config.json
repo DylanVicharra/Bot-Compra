@@ -1,0 +1,29 @@
+{
+    "timeOut": 5,
+    "frequency": 3,
+    "sheetNameBot": "Compras",
+    "carrier":
+        {
+            "verizon":
+            {
+                "number":"7865621153",
+                "postal":"33178"
+            },
+            "t-mobile":
+            {
+                "number":"",
+                "postal":""
+            },
+            "spring":
+            {
+                "number":"",
+                "postal":""
+            },
+            "att":
+            {
+                "number":"",
+                "postal":""
+            }
+        },
+    "acceptedNames": ["MODELO","OPERADOR","USER","PASSWORD","CANTIDAD","STORE"]
+}
