@@ -1,5 +1,5 @@
-# amazon-bot
-El bot ayuda a extraer información de productos de Amazon, almacenados en un archivo excel.
+# Bot-Compra
+El bot ayuda en la compra de productos de la tienda online de apple.
 
 # Instalación 
 Para ejecutar el bot, necesitamos los siguientes programas instalados:
