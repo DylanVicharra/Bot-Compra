@@ -44,7 +44,10 @@ class Purchase:
                 else:
                     step()
             except Exception as ex: 
-                print(f'{ex.__class__.__name__}: {ex}')
+                if ((ex.__class__.__name__) in ['TimeoutException','ElementNotInteractableException']):
+                    print(f'{ex.__class__.__name__}: Elemento no encontrado.')
+                else:
+                    print(f'{ex.__class__.__name__}: {ex}')
                 self.status = "Incompleto"
                 break
         # finish the instance of driver    
@@ -111,7 +114,7 @@ class Purchase:
                                                     typeSearch = By.XPATH,
                                                     nameSearch = CARRIER_BUTTON.format(self.purchaseInformation.carrier.upper()))
         
-        self.driver.scrollToWebElement(type = 'buttonPanel',
+        self.driver.scrollToWebElement(type = 'loadElements',
                                         webElement = carrierButton)
 
         noAppleCareButton = self.driver.waitWebElement(elements = 'one',
