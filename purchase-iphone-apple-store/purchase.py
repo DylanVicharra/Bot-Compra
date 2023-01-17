@@ -123,7 +123,7 @@ class Purchase:
                                                         typeSearch = By.XPATH,
                                                         nameSearch = NO_APPLE_CARE_BUTTON)
         
-        self.driver.scrollToWebElement(type = 'loadElements',
+        self.driver.scrollToWebElement(type = 'buttonPanel',
                                         webElement = noAppleCareButton)
 
         continueButton = self.driver.waitWebElement(elements = 'one',
