@@ -75,8 +75,8 @@ class FilesHandler:
                 except Exception as ex:
                     errorMessage = '\n'.join(map(str, ex.args)).rstrip()
                     errProduct = {}
-                    errProduct['error'] = errorMessage
-                    errProduct['object'] = productsList.iloc[i]
+                    errProduct['errorName'] = errorMessage
+                    errProduct['product'] = productsList.iloc[i]['MODELO'].lower()
                     self.errorProduct.append(errProduct)
             return purchaseProduct
         raise ExcelContentNoSupported('El contenido del archivo no es el adecuado.')

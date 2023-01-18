@@ -13,6 +13,7 @@ class Purchase:
     frequency = None
     numberOrder = None
     status = None
+    errorName = None
     carrierInformation = None
     productName = None
 
@@ -49,6 +50,7 @@ class Purchase:
                 else:
                     print(f'{ex.__class__.__name__}: {ex}')
                 self.status = "Incompleto"
+                self.errorName = ex.__class__.__name__
                 break
         # finish the instance of driver    
         self.driver.finishDriver()
@@ -81,7 +83,25 @@ class Purchase:
         
         raise NoStoreAvailable("No hay tiendas disponibles. Se termina la compra del producto")
 
-    
+    def selectNoAppleCare(self):
+        try:
+            noAppleCareButton = self.driver.waitWebElement(elements = 'one',
+                                                            timeOut = self.timeOut,
+                                                            frequency = self.frequency,
+                                                            typeSearch = By.XPATH,
+                                                            nameSearch = NO_APPLE_CARE_BUTTON)
+
+            self.driver.scrollToWebElement(type = 'buttonPanel',
+                                            webElement = noAppleCareButton)
+        except:
+            noAppleCareButton = self.driver.waitWebElement(elements = 'one',
+                                                        timeOut = self.timeOut,
+                                                        frequency = self.frequency,
+                                                        typeSearch = By.XPATH,
+                                                        nameSearch = NO_APPLE_CARE_BUTTON_PLUS)
+
+            self.driver.scrollToWebElement(type = 'buttonPanel',
+                                        webElement = noAppleCareButton)
 
     def productSelection(self):
 
@@ -117,14 +137,7 @@ class Purchase:
         self.driver.scrollToWebElement(type = 'loadElements',
                                         webElement = carrierButton)
 
-        noAppleCareButton = self.driver.waitWebElement(elements = 'one',
-                                                        timeOut = self.timeOut,
-                                                        frequency = self.frequency,
-                                                        typeSearch = By.XPATH,
-                                                        nameSearch = NO_APPLE_CARE_BUTTON)
-        
-        self.driver.scrollToWebElement(type = 'buttonPanel',
-                                        webElement = noAppleCareButton)
+        self.selectNoAppleCare()
 
         continueButton = self.driver.waitWebElement(elements = 'one',
                                                         timeOut = self.timeOut,

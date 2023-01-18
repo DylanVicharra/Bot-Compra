@@ -27,10 +27,12 @@ TRADE_BUTTON = '//input[@id="noTradeIn"][@value="noTradeIn"][@type="radio"]'
 FULLPRICE_BUTTON = '//input[@value="fullprice"][@type="radio"][@name="purchase_option_group"]' 
 CARRIER_BUTTON = '//input[@class="form-selector-input"][@name="carrierModel"][contains(@value,"{}")]'
 CONTINUE_PRODUCT_BUTTON = '//button[@type="submit"][@class="button button-block"]' 
-NO_APPLE_CARE_BUTTON = '//input[@id="applecareplus_59_noapplecare"][@type="radio"]'
+#APPLE_CARE_CONTAINER = '//div[@class="rc-dimension-selector-group form-selector-group"]/div[@class="row"]'
+NO_APPLE_CARE_BUTTON_PLUS = '//input[@class="form-selector-input"][@type="radio"][@id="applecareplus_59_noapplecare"]'
+NO_APPLE_CARE_BUTTON = '//input[@class="form-selector-input"][@type="radio"][@id="applecareplus_58_noapplecare"]'
+#NO_APPLE_CARE_BUTTON = '//input[contains(@id,"noapplecare")]'
 # aparece cuando no es un iphone 12, ventana de activacion
 ACTIVATION_CARRIER_BUTTON = '//button[@type="submit"][@class="rf-carrier-fork-option-button form-selector-label"][@name="proceed"]'
-
 
 
 ''' Pagina de validadcion del operador  '''
@@ -79,7 +81,7 @@ TIME_PICKLIST = '//select[@class="form-dropdown-select form-dropdown-selectnone"
 # Label Opciones
 DELIVERY_OPTION_BUTTON = '//div[@class="large-12 small-12 form-selector"]'
 # Label cabeceras 
-DELIVERY_INFORMATION_LEFT_COL = './/div[@class="column form-selector-left-col rs-fulfillment-delivery-label"]'
+DELIVERY_INFORMATION_LEFT_COL = './/span[@class="column form-selector-left-col rs-fulfillment-delivery-label"]'
 DELIVERY_DATE_LABEL = './/span[@class="form-selector-title"]'
 DELIVERY_METHOD_LABEL = './/span[@class="form-label-small"]'
 DELIVERY_CHARGE_LABEL = './/span[@class="column form-selector-right-col"]'

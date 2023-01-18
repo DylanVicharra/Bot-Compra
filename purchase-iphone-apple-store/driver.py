@@ -33,7 +33,7 @@ class Driver:
             ActionChains(self.driverChrome)\
                 .move_to_element(webElement['webElement'])\
                 .click(webElement['webElement'])\
-                .pause(2)\
+                .pause(3)\
                 .perform()
         elif (webElement['type'] == 'button'):
             ActionChains(self.driverChrome)\
@@ -54,6 +54,9 @@ class Driver:
                 .scroll_from_origin(scrollOriginWebElement, 0, 450)\
                 .pause(2)\
                 .perform()
+    
+    def forceClick(self, webElement):
+        self.driverChrome.execute_script("arguments[0].click();", webElement)
 
     def sendKeysActions(self, webElement, **keys):
         ActionChains(self.driverChrome)\

@@ -61,6 +61,18 @@ def getConfigUser(jsonFile):
     config = fileHandler.readJson(DATA_PATH / jsonFile)
     return config 
 
+def showCompletedPurchase(listProductTotal):
+    if (fileHandler.errorProduct):
+        diffList = listProductTotal - len(fileHandler.errorProduct)
+
+        print('+----------------------------------------------------------------------------+')
+        print(f' Se ha completado exitosamente un total de {diffList} compras.')
+        print(f' Se ha fallado un total de {len(fileHandler.errorProduct)} compras.')
+        print(f' Por los siguiente errores:')
+        for err in fileHandler.errorProduct:
+            print(f' {err} ')
+        print('+----------------------------------------------------------------------------+')
+
 
 def main():
     os.system('cls')
@@ -98,6 +110,9 @@ def main():
         
         # Open or create a excel file where the order numbers will be stored
         numberOrdersFile = fileHandler.openOrCreateExcelFile(NUMBER_ORDER_PATH, saveFileName) 
+
+        # Instance of int variable
+        listProductTotal = 0
     except Exception as ex:
         print(f'{ex.__class__.__name__}: {ex}')
         print("Ha ocurrido un error inesperado.")
@@ -114,66 +129,86 @@ def main():
             newCardProduct = cardDataVerification(product)
             carrierProduct = product['OPERADOR'].lower()
 
-            # Important information is completed
-            if (carrierProduct != 'unlocked'):
-                carrierInformation =  CarrierInformation(
-                    number = carriers[carrierProduct]['number'],
-                    postal = carriers[carrierProduct]['postal']
+            if (modelProduct!=False):
+                # Error variable
+                errProduct = {}
+                # Important information is completed
+                if (carrierProduct != 'unlocked'):
+                    carrierInformation =  CarrierInformation(
+                        number = carriers[carrierProduct]['number'],
+                        postal = carriers[carrierProduct]['postal']
+                    )
+                else:
+                    carrierInformation = None
+
+                productInformation = ProductInformation(
+                    model = modelProduct[0],
+                    display = modelProduct[1],
+                    memory = modelProduct[2],
+                    color = modelProduct[3]
                 )
-            else:
-                carrierInformation = None
 
-            productInformation = ProductInformation(
-                model = modelProduct[0],
-                display = modelProduct[1],
-                memory = modelProduct[2],
-                color = modelProduct[3]
-            )
+                purchaseInformation = PurchaseInformation(
+                    username = product['USER'],
+                    password = product['PASSWORD'],
+                    carrier = product['OPERADOR'].lower(),
+                    quantify = int(product['CANTIDAD']),
+                    store = storeProduct,
+                    storesList = optionalStoreProduct,
+                    newCard = newCardProduct
+                )
 
-            purchaseInformation = PurchaseInformation(
-                username = product['USER'],
-                password = product['PASSWORD'],
-                carrier = product['OPERADOR'].lower(),
-                quantify = int(product['CANTIDAD']),
-                store = storeProduct,
-                storesList = optionalStoreProduct,
-                newCard = newCardProduct
-            )
+                purchaseProduct = Purchase(productInformation, purchaseInformation)
+                purchaseProduct.timeOut = timeOut
+                purchaseProduct.frequency = frequency
+                purchaseProduct.carrierInformation = carrierInformation
+                purchaseProduct.productName = str(product['MODELO']).lower()
 
-            purchaseProduct = Purchase(productInformation, purchaseInformation)
-            purchaseProduct.timeOut = timeOut
-            purchaseProduct.frequency = frequency
-            purchaseProduct.carrierInformation = carrierInformation
-            purchaseProduct.productName = str(product['MODELO']).lower()
+                # Conteo de cantidad total de productos
+                listProductTotal+=purchaseProduct.purchaseInformation.quantify
 
-            print('=======================================================================================')
-            print(f'Se inicia la compra del producto: {purchaseProduct.productName}')
+                print('=======================================================================================')
+                print(f'Se inicia la compra del producto: {purchaseProduct.productName}')
 
-            if purchaseProduct.purchaseInformation.carrier != 'unlocked':
-                # Se tiene que comprar la cantidad dicha
-                for repeat in range(purchaseProduct.purchaseInformation.quantify):
+                if purchaseProduct.purchaseInformation.carrier != 'unlocked':
+                    # Se tiene que comprar la cantidad dicha
+                    for repeat in range(purchaseProduct.purchaseInformation.quantify):
+                        
+                        print('---------------------------------------------------------------------------------------')
+                        print(f'Cant: {repeat+1} de {purchaseProduct.purchaseInformation.quantify}')
+
+                        purchaseProduct.run()
+
+                        if purchaseProduct.status ==  "Completado":
+                            fileHandler.writeExcelFile(numberOrdersFile, purchaseProduct)
+                        else:
+                            print(f'Ha fallado la compra del producto: {purchaseProduct.productName}')
+                            errProduct['errorName'] = purchaseProduct.errorName
+                            errProduct['product'] = purchaseProduct.productName
+                            fileHandler.errorProduct.append(errProduct)
+                    
+                elif purchaseProduct.purchaseInformation.carrier == 'unlocked':
                     
                     print('---------------------------------------------------------------------------------------')
-                    print(f'Cant: {repeat+1} de {purchaseProduct.purchaseInformation.quantify}')
-
+                    
                     purchaseProduct.run()
 
                     if purchaseProduct.status ==  "Completado":
                         fileHandler.writeExcelFile(numberOrdersFile, purchaseProduct)
                     else:
                         print(f'Ha fallado la compra del producto: {purchaseProduct.productName}')
-                
-            elif purchaseProduct.purchaseInformation.carrier == 'unlocked':
-
-                purchaseProduct.run()
-
-                if purchaseProduct.status ==  "Completado":
-                    fileHandler.writeExcelFile(numberOrdersFile, purchaseProduct)
-                else:
-                    print(f'Ha fallado la compra del producto: {purchaseProduct.productName}')
-
+                        errProduct['errorName'] = purchaseProduct.errorName
+                        errProduct['product'] = purchaseProduct.productName
+                        fileHandler.errorProduct.append(errProduct)
+            else:
+                errProduct['errorName'] = 'ModelNotFound'
+                errProduct['product'] = product['MODELO'].lower()
+                fileHandler.errorProduct.append(errProduct)
         
+        #showCompletedPurchase(listProductTotal)
+
         fileHandler.saveExcelFile(numberOrdersFile, saveFileName, NUMBER_ORDER_PATH)
+        
         print("Finalizando BOT APPLE...")
 
     except PermissionError:
