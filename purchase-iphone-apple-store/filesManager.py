@@ -41,7 +41,7 @@ class FilesHandler:
         sheet.cell(row = lastRow+1, column = 1).value = product.numberOrder['number']
         sheet.cell(row = lastRow+1, column = 1).style = 'Hyperlink'
         sheet.cell(row = lastRow+1, column = 2).value = product.productName
-        sheet.cell(row = lastRow+1, column = 3).value = product.purchaseInformation.store
+        sheet.cell(row = lastRow+1, column = 3).value = product.purchaseInformation.store["nombre"]
 
     def openOrCreateExcelFile(self, folderPath, excelFileName):
         try: 
