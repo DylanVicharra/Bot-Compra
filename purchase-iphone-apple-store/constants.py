@@ -17,7 +17,6 @@ PRODUCT_URL = 'https://www.apple.com/shop/buy-iphone/{}/{}-{}-{}-{}'
 BAG_URL = f'{APPLE_URL}/shop/bag'
 THANK_YOU_URL = "https://www.apple.com/shop/checkout/thankyou"
 
-
 ''' Pagina del producto '''
 # Contenedores
 contenedor_botones_producto = '//div[@id="root"]' 

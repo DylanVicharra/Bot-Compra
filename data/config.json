@@ -25,5 +25,9 @@
                 "postal":""
             }
         },
-    "acceptedNames": ["MODELO","OPERADOR","USER","PASSWORD","CANTIDAD","STORE"]
+    "acceptedNames": ["MODELO","OPERADOR","USER","PASSWORD","CANTIDAD","STORE"],
+    "userDriver":{
+        "name":"Esteban",
+        "lastName":"Iturrieta"
+    }
 }

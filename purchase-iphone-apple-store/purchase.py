@@ -330,7 +330,7 @@ class Purchase:
                                                         typeSearch = By.XPATH,
                                                         nameSearch = FIRSTNAME_TEXT)
 
-            self.driver.sendKeysActions(webElement=firstnameText, keyDown = Keys.CONTROL, command = 'a', extra = Keys.DELETE, text = 'Esteban')
+            self.driver.sendKeysActions(webElement=firstnameText, keyDown = Keys.CONTROL, command = 'a', extra = Keys.DELETE, text = self.purchaseInformation.userDriver['name'])
                                         
             '''self.driver.scrollToWebElement(type = 'text',
                                             webElement = firstnameText,
@@ -342,7 +342,7 @@ class Purchase:
                                                         typeSearch = By.XPATH,
                                                         nameSearch = LASTNAME_TEXT)
 
-            self.driver.sendKeysActions(webElement=lastnameText, keyDown = Keys.CONTROL, command = 'a', extra = Keys.DELETE, text = 'Iturrieta')
+            self.driver.sendKeysActions(webElement=lastnameText, keyDown = Keys.CONTROL, command = 'a', extra = Keys.DELETE, text = self.purchaseInformation.userDriver['lastName'])
             
             '''self.driver.scrollToWebElement(type = 'text',
                                             webElement = lastnameText,

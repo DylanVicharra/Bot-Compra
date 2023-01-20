@@ -14,6 +14,7 @@ class PurchaseInformation:
         self.store = information['store']
         self.storesList = information['storesList']
         self.newCard = information['newCard']
+        self.userDriver = information['userDriver']
 
 class CarrierInformation:
     def __init__(self, **information):

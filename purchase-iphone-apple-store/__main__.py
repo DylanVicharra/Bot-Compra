@@ -89,6 +89,7 @@ def main():
         frequency = config['frequency']
         acceptedNames = config['acceptedNames']
         carriers = config['carrier']
+        userDriverInfo = config['userDriver']
 
         fileHandler.acceptedColumnsNames = acceptedNames
         fileHandler.sheetName = 'Compras'
@@ -155,7 +156,8 @@ def main():
                     quantify = int(product['CANTIDAD']),
                     store = storeProduct,
                     storesList = optionalStoreProduct,
-                    newCard = newCardProduct
+                    newCard = newCardProduct,
+                    userDriver = userDriverInfo
                 )
 
                 purchaseProduct = Purchase(productInformation, purchaseInformation)
