@@ -89,7 +89,7 @@ def main():
         frequency = config['frequency']
         acceptedNames = config['acceptedNames']
         carriers = config['carrier']
-        userDriverInfo = config['userDriver']
+        #userDriverInfo = config['userDriver']
 
         fileHandler.acceptedColumnsNames = acceptedNames
         fileHandler.sheetName = 'Compras'
@@ -101,6 +101,10 @@ def main():
         mainFileName = mainFileName.replace("xlsx",".xlsx")
         print(f"Lectura del archivo {mainFileName}")
         
+        # Get information of purchase excel
+        sheetNameDriver = 'Information'
+        userDriverInfo = fileHandler.getDriverPurchase(mainFile, sheetNameDriver)
+
         # Name the file to be saved
         saveFileName = f'{dateFile}-{mainFileName}'
 
@@ -179,6 +183,14 @@ def main():
                         print('---------------------------------------------------------------------------------------')
                         print(f'Cant: {repeat+1} de {purchaseProduct.purchaseInformation.quantify}')
 
+                        if ((repeat+1)>1):
+                            repeatPurchaseProduct = Purchase(productInformation, purchaseInformation)
+                            repeatPurchaseProduct.timeOut = timeOut
+                            repeatPurchaseProduct.frequency = frequency
+                            repeatPurchaseProduct.carrierInformation = carrierInformation
+                            repeatPurchaseProduct.productName = str(product['MODELO']).lower()
+                            purchaseProduct = repeatPurchaseProduct  
+                            
                         purchaseProduct.run()
 
                         if purchaseProduct.status ==  "Completado":

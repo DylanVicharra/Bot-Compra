@@ -18,6 +18,16 @@ class FilesHandler:
         excelFile = excelFile.dropna(axis=0, subset=['CANTIDAD'])
         return excelFile
 
+    def getDriverPurchase(self, excelFile, sheetName):
+        driverSheet = pd.read_excel(f'{excelFile}', sheet_name=sheetName, engine='openpyxl', header=1)
+
+        driverInfo = {}
+        driverInfo['name'] = driverSheet.iloc[0]['Nombre']
+        driverInfo['lastName'] = driverSheet.iloc[0]['Apellido']
+
+        return driverInfo
+
+
     def readJson(self, jsonFile):
         try:
             with open(jsonFile, encoding='utf-8') as jsonFileFound:

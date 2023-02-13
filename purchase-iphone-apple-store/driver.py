@@ -65,6 +65,7 @@ class Driver:
             .key_up(keys['keyDown'])\
             .send_keys_to_element(webElement ,keys['extra'])\
             .send_keys_to_element(webElement ,keys['text'])\
+            .pause(2)\
             .perform()
 
     def waitWebElement(self, **options):

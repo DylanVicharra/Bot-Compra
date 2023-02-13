@@ -236,7 +236,8 @@ class Purchase:
             if (self.purchaseInformation.quantify < 10):
                 quantitySelect.select_by_value(str(self.purchaseInformation.quantify))
             elif (self.purchaseInformation.quantify >= 10):
-                quantitySelect.select_by_value(str(self.purchaseInformation.quantify))
+                quantify = '10'
+                quantitySelect.select_by_value(quantify)
 
                 quantityText = self.driver.waitWebElement(elements = 'one',
                                                         timeOut = self.timeOut,
@@ -244,10 +245,12 @@ class Purchase:
                                                         typeSearch = By.XPATH,
                                                         nameSearch = QUANTIFY_TEXT)
 
-                self.driver.scrollToWebElement(type = 'text',
+                self.driver.sendKeysActions(webElement=quantityText, keyDown = Keys.CONTROL, command = 'a', extra = Keys.DELETE, text = (str(self.purchaseInformation.quantify) + Keys.ENTER))
+
+                '''self.driver.scrollToWebElement(type = 'text',
                                             webElement = quantityText,
-                                            textBox = str(self.purchaseInformation.quantify) + Keys.ENTER)
-            
+                                            textBox = (str(self.purchaseInformation.quantify)) + Keys.ENTER)'''
+                
         checkoutButton = self.driver.waitWebElement(elements = 'one',
                                                     timeOut = self.timeOut,
                                                     frequency = self.frequency,
@@ -256,6 +259,16 @@ class Purchase:
         
         self.driver.scrollToWebElement(type = 'button',
                                         webElement = checkoutButton)
+
+    def clickSignIn(self):
+        signInButton = self.driver.waitWebElement(elements = 'one',
+                                                    timeOut = self.timeOut,
+                                                    frequency = self.frequency,
+                                                    typeSearch = By.XPATH,
+                                                    nameSearch = SIGNIN_BUTTON)
+
+        self.driver.scrollToWebElement(type = 'button',
+                                        webElement = signInButton)
 
     def loginAppleId(self):
 
@@ -277,7 +290,9 @@ class Purchase:
 
         self.driver.scrollToWebElement(type = 'text',
                                         webElement = usernameText,
-                                        textBox = self.purchaseInformation.username + Keys.ENTER)
+                                        textBox = self.purchaseInformation.username)
+
+        self.clickSignIn()
 
         passwordText = self.driver.waitWebElement(elements = 'one',
                                                     timeOut = self.timeOut,
@@ -287,16 +302,10 @@ class Purchase:
 
         self.driver.scrollToWebElement(type = 'text',
                                         webElement = passwordText,
-                                        textBox = self.purchaseInformation.password + Keys.ENTER) 
+                                        textBox = self.purchaseInformation.password) 
 
-        '''signInButton = self.driver.waitWebElement(elements = 'one',
-                                                    timeOut = self.timeOut,
-                                                    frequency = self.frequency,
-                                                    typeSearch = By.XPATH,
-                                                    nameSearch = SIGNIN_BUTTON)
-
-        self.driver.scrollToWebElement(type = 'button',
-                                        webElement = signInButton) '''
+        self.clickSignIn()
+        
         
 
     def pickupOrDelivery (self):
@@ -314,15 +323,17 @@ class Purchase:
                                             webElement = continuePaymentButton)
         
         else: 
-    
-            personPickupButton = self.driver.waitWebElement(elements = 'one',
-                                                            timeOut = self.timeOut,
-                                                            frequency = self.frequency,
-                                                            typeSearch = By.XPATH,
-                                                            nameSearch = PERSON_PICKUP_BUTTON.format(0))
+            try:
+                personPickupButton = self.driver.waitWebElement(elements = 'one',
+                                                                timeOut = self.timeOut,
+                                                                frequency = self.frequency,
+                                                                typeSearch = By.XPATH,
+                                                                nameSearch = PERSON_PICKUP_BUTTON.format(0))
 
-            self.driver.scrollToWebElement(type = 'buttonPanel',
-                                            webElement = personPickupButton)
+                self.driver.scrollToWebElement(type = 'buttonPanel',
+                                                webElement = personPickupButton)
+            except:
+                pass
                                             
             firstnameText = self.driver.waitWebElement(elements = 'one',
                                                         timeOut = self.timeOut,
@@ -459,15 +470,17 @@ class Purchase:
                 except:
                     self.favoriteStores()
             
+            
             timePicklist = self.driver.waitWebElement(elements = 'one', 
-                                                        timeOut = self.timeOut, 
-                                                        frequency = self.frequency, 
-                                                        typeSearch = By.XPATH,
-                                                        nameSearch = TIME_PICKLIST)
+                                                            timeOut = self.timeOut, 
+                                                            frequency = self.frequency, 
+                                                            typeSearch = By.XPATH,
+                                                            nameSearch = TIME_PICKLIST)
 
             selectedHour = Select(timePicklist)
 
             selectedHour.select_by_index(2)
+            
 
         continueShippingButton = self.driver.waitWebElement(elements = 'one', 
                                                             timeOut = self.timeOut, 
